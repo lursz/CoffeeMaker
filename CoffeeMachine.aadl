@@ -1,9 +1,13 @@
+package coffeemachine
+public
+
 system CoffeeMachine
 end CoffeeMachine;
 
+-- SYSTEM
 system implementation CoffeeMachine.Impl
     subcomponents
-        cpu1: processor GenericProcessor.Impl;
+        cpu1: processor GenericProcessor;
         screen: device ScreenDevice.Impl;
         grinder: device GrinderDevice.Impl;
         waterPump: device PumpDevice.Impl;
@@ -15,16 +19,23 @@ system implementation CoffeeMachine.Impl
         milkSensor: device SensorDevice.Impl;
 end CoffeeMachine.Impl;
 
+
+-- CPU
 processor GenericProcessor
 end GenericProcessor;
+		
+process CPUProcess
+end CPUProcess;
 
-processor implementation GenericProcessor.Impl
+process implementation CPUProcess.Impl
     subcomponents
         uiThread: thread UserInterface;
         brewingThread: thread BrewingControl;
         sensorThread: thread SensorMonitoring;
 end GenericProcessor.Impl;
 
+
+-- THREADS
 thread UserInterface
     features
         displayOutput: out data port;
@@ -50,6 +61,8 @@ thread SensorMonitoring
         Period => 50 ms;  -- Check sensors every 50 milliseconds
 end SensorMonitoring;
 
+
+-- DEVICES
 device ScreenDevice
 end ScreenDevice;
 
@@ -86,6 +99,7 @@ device SensorDevice
 end SensorDevice;
 
 device implementation SensorDevice.Impl
-    features
-        detectLevel: out data port;
 end SensorDevice.Impl;
+
+
+end coffeemachine;
