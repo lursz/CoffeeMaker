@@ -1,4 +1,91 @@
-package CoffeeMachine
-public
-	
+system CoffeeMachine
 end CoffeeMachine;
+
+system implementation CoffeeMachine.Impl
+    subcomponents
+        cpu1: processor GenericProcessor.Impl;
+        screen: device ScreenDevice.Impl;
+        grinder: device GrinderDevice.Impl;
+        waterPump: device PumpDevice.Impl;
+        waterHeater: device HeaterDevice.Impl;
+        milkPump: device PumpDevice.Impl;
+        milkFrother: device FrotherDevice.Impl;
+        coffeeSensor: device SensorDevice.Impl;
+        waterSensor: device SensorDevice.Impl;
+        milkSensor: device SensorDevice.Impl;
+end CoffeeMachine.Impl;
+
+processor GenericProcessor
+end GenericProcessor;
+
+processor implementation GenericProcessor.Impl
+    subcomponents
+        uiThread: thread UserInterface;
+        brewingThread: thread BrewingControl;
+        sensorThread: thread SensorMonitoring;
+end GenericProcessor.Impl;
+
+thread UserInterface
+    features
+        displayOutput: out data port;
+    properties
+        Dispatch_Protocol => Periodic;
+        Period => 100 ms;  -- Update display every 100 milliseconds
+end UserInterface;
+
+thread BrewingControl
+    features
+        startBrewing: in event port;
+        stopBrewing: in event port;
+    properties
+        Dispatch_Protocol => Sporadic;
+        Priority => 1;
+end BrewingControl;
+
+thread SensorMonitoring
+    features
+        sensorData: in data port;
+    properties
+        Dispatch_Protocol => Periodic;
+        Period => 50 ms;  -- Check sensors every 50 milliseconds
+end SensorMonitoring;
+
+device ScreenDevice
+end ScreenDevice;
+
+device implementation ScreenDevice.Impl
+end ScreenDevice.Impl;
+
+device GrinderDevice
+end GrinderDevice;
+
+device implementation GrinderDevice.Impl
+end GrinderDevice.Impl;
+
+device PumpDevice
+end PumpDevice;
+
+device implementation PumpDevice.Impl
+end PumpDevice.Impl;
+
+device HeaterDevice
+end HeaterDevice;
+
+device implementation HeaterDevice.Impl
+end HeaterDevice.Impl;
+
+device FrotherDevice
+end FrotherDevice;
+
+device implementation FrotherDevice.Impl
+end FrotherDevice.Impl;
+
+device SensorDevice
+    features
+        detectLevel: out data port;
+end SensorDevice;
+
+device implementation SensorDevice.Impl
+    features
+        detectLevel: out data port;
+end SensorDevice.Impl;
