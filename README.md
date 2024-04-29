@@ -1,5 +1,6 @@
 # Coffee Maker
 <img src="https://cdn.dribbble.com/users/1859102/screenshots/4809469/coffee-machine_1.gif" width="400" height="300">
+
 ## About 
 The main idea behind this project is to create a model of coffee machine in AADL. 
 
