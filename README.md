@@ -12,20 +12,30 @@ System: CoffeeMachine
 -- CPU
 processor GenericProcessor
 
+-- BUS
+bus DataBus
+
+-- MEMORY
+memory Mem
+
+
+-- PROCESSES
+process MainProcess
+
 -- THREADS
 thread UserInterface
 thread BrewingControl
 thread SensorMonitoring
 
 -- Devices --
-Device: Screen
-Device: Grinder
+device: Screen / Control Panel
+device: Grinder
     -- Pumps
-Device: Water pump
-Device: Water heater
-Device: Milk pump
-Device: Milk frother
+device: Water pump
+device: Water heater
+device: Milk pump
+device: Milk frother
     -- Sensors
-Deivce: Coffee replenishment sensor
-Device: Water sensor
-Device: Milk sensor
+deivce: Coffee replenishment sensor
+device: Water sensor
+device: Milk sensor
