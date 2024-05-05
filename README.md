@@ -1,22 +1,41 @@
 # Coffee Maker
+<img src="https://cdn.dribbble.com/users/1859102/screenshots/4809469/coffee-machine_1.gif" width="400" height="300">
+
 ## About 
 The main idea behind this project is to create a model of coffee machine in AADL. 
 
 ## Model
 ```
+-- SYSTEM
 System: CoffeeMachine
 
-Processors: cpu1
+-- CPU
+processor GenericProcessor
+
+-- BUS
+bus DataBus
+
+-- MEMORY
+memory Mem
+
+
+-- PROCESSES
+process MainProcess
+
+-- THREADS
+thread UserInterface
+thread BrewingControl
+thread SensorMonitoring
 
 -- Devices --
-Device: Screen
-Device: Grinder
+device: Screen / Control Panel
+device: Grinder
     -- Pumps
-Device: Water pump
-Device: Water heater
-Device: Milk pump
-Device: Milk frother
+device: Water pump
+device: Water heater
+device: Milk pump
+device: Milk frother
     -- Sensors
-Deivce: Coffee replenishment sensor
-Device: Water sensor
-Device: Milk sensor
+deivce: Coffee replenishment sensor
+device: Water sensor
+device: Milk sensor

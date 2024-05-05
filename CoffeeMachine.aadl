@@ -52,6 +52,7 @@ end NumberOfCycles;
 system CoffeeMachine
 end CoffeeMachine;
 
+-- SYSTEM
 system implementation CoffeeMachine.Impl
     subcomponents
         cpu1: processor GenericProcessor;
@@ -67,8 +68,13 @@ system implementation CoffeeMachine.Impl
         milkSensor: device SensorDevice.Impl;
 end CoffeeMachine.Impl;
 
+
+-- CPU
 processor GenericProcessor
 end GenericProcessor;
+		
+process CPUProcess
+end CPUProcess;
 
 process MainProcess
 end MainProcess;
@@ -80,6 +86,8 @@ process implementation MainProcess.Impl
         sensorThread: thread SensorMonitoring;
 end MainProcess.Impl;
 
+
+-- THREADS
 thread UserInterface
     features
         beverageParams: in data port BeverageParameters;
@@ -109,6 +117,8 @@ thread SensorMonitoring
         Period => 50 ms;  -- Check sensors every 50 milliseconds
 end SensorMonitoring;
 
+
+-- DEVICES
 device ScreenDevice
 end ScreenDevice;
 
