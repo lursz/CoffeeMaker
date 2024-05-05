@@ -1,2 +1,17 @@
-/.aadlbin-gen/
+.vscode/
+# ignore files with no extension
+*
+!/**/
+!*.*
+# ignore object files
+*.o
+*.ali
+# AADL Folders
+.aadlbin-gen/
+**/.aadlbin-gen/
+.settings/
+**.settings/
 .metadata/
+**/.gitignore
+# Instances
+**/instances/
