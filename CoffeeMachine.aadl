@@ -1,9 +1,61 @@
+-- Data Types
+data Temperature
+    properties
+        Data_Representation => Integer;
+        Data_Range => range 0 .. 100; -- Temperature in degrees Celsius
+        Unit => "degrees Celsius";
+end Temperature;
+
+data Time
+    properties
+        Data_Representation => Integer;
+        Data_Range => range 0 .. 300; -- Time in seconds
+        Unit => "seconds";
+end Time;
+
+data WaterAmount
+    properties
+        Data_Representation => Integer;
+        Data_Range => range 0 .. 500; -- Water amount in milliliters
+        Unit => "ml";
+end WaterAmount;
+
+data CoffeeAmount
+    properties
+        Data_Representation => Integer;
+        Data_Range => range 0 .. 100; -- Coffee amount in grams
+        Unit => "g";
+end CoffeeAmount;
+
+data MilkAmount
+    properties
+        Data_Representation => Integer;
+        Data_Range => range 0 .. 500; -- Milk amount in milliliters
+        Unit => "ml";
+end MilkAmount;
+
+data BeverageParameters
+    features
+        water: in data port WaterAmount;
+        coffee: in data port CoffeeAmount;
+        milk: in data port MilkAmount;
+end BeverageParameters;
+
+data NumberOfCycles
+	properties
+		Data_Representation => Integer;
+		Data_Range => range 0 .. 500;
+end NumberOfCycles;
+
+
+-- Coffee Machine System
 system CoffeeMachine
 end CoffeeMachine;
 
 system implementation CoffeeMachine.Impl
     subcomponents
-        cpu1: processor GenericProcessor.Impl;
+        cpu1: processor GenericProcessor;
+        coffeeProcess: process MainProcess.Impl;
         screen: device ScreenDevice.Impl;
         grinder: device GrinderDevice.Impl;
         waterPump: device PumpDevice.Impl;
@@ -18,15 +70,19 @@ end CoffeeMachine.Impl;
 processor GenericProcessor
 end GenericProcessor;
 
-processor implementation GenericProcessor.Impl
+process MainProcess
+end MainProcess;
+
+process implementation MainProcess.Impl
     subcomponents
         uiThread: thread UserInterface;
         brewingThread: thread BrewingControl;
         sensorThread: thread SensorMonitoring;
-end GenericProcessor.Impl;
+end MainProcess.Impl;
 
 thread UserInterface
     features
+        beverageParams: in data port BeverageParameters;
         displayOutput: out data port;
     properties
         Dispatch_Protocol => Periodic;
@@ -37,6 +93,9 @@ thread BrewingControl
     features
         startBrewing: in event port;
         stopBrewing: in event port;
+        beverageParams: in data port BeverageParameters;
+        brewingTemperature: in data port Temperature;
+        brewingTime: in data port Time;
     properties
         Dispatch_Protocol => Sporadic;
         Priority => 1;
@@ -44,7 +103,7 @@ end BrewingControl;
 
 thread SensorMonitoring
     features
-        sensorData: in data port;
+        sensorData: out data port;  -- Sensor outputs data to this port
     properties
         Dispatch_Protocol => Periodic;
         Period => 50 ms;  -- Check sensors every 50 milliseconds
@@ -82,10 +141,10 @@ end FrotherDevice.Impl;
 
 device SensorDevice
     features
-        detectLevel: out data port;
+        sensorOutput: out data port;  -- Correct direction of sensor data output
 end SensorDevice;
 
 device implementation SensorDevice.Impl
     features
-        detectLevel: out data port;
+        sensorOutput: out data port;  -- Sensors typically output data
 end SensorDevice.Impl;
