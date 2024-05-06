@@ -1,3 +1,8 @@
+package CoffeeMachine
+public
+	with Base_Types; -- np. Base_Types::Integer
+	with Data_Model;
+
 -- Data Types
 data Temperature
     properties
@@ -158,3 +163,8 @@ device implementation SensorDevice.Impl
     features
         sensorOutput: out data port;  -- Sensors typically output data
 end SensorDevice.Impl;
+
+
+
+----------
+end CoffeeMachine;
