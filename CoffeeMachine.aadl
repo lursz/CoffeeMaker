@@ -88,12 +88,17 @@ public
 			uiThread: thread UserInterface;
 			brewingThread: thread BrewingControl;
 			sensorThread: thread SensorMonitoring;
+		connections
+			-- Connections within MainProcess
+			p1: port uiThread.beverageParams -> brewingThread.beverageParams;
+			p2: port brewingThread.startBrewing -> sensorThread.InSensor;
+			p3: port sensorThread.OutSensor -> brewingThread.stopBrewing;
 	end MainProcess.Impl;
 
 -- THREADS
 	thread UserInterface
 		features
-			beverageParams: in data port BeverageParameters;
+			beverageParams: out data port BeverageParameters;
 			displayOutput: out data port;
 		properties
 			Dispatch_Protocol => Periodic;
@@ -103,9 +108,10 @@ public
 	thread BrewingControl
 		features
 			beverageParams: in data port BeverageParameters;
-			brewingTemperature: in data port Temperature;
-			brewingTime: in data port Time;
-			startBrewing: in event port;
+			pumpParams: out data port Time;
+			heatParams: out data port Temperature;
+			grinderParams: out data port Time;
+			startBrewing: out event port;
 			stopBrewing: in event port;
 		properties
 			Dispatch_Protocol => Sporadic;
@@ -114,10 +120,8 @@ public
 
 	thread SensorMonitoring
 		features
-			sensorData: out data port; -- Sensor outputs data to this port
-		properties
-			Dispatch_Protocol => Periodic;
-			Period => 50ms; -- Check sensors every 50 milliseconds
+			InSensor: in event port;
+			OutSensor: out data port; -- Sensor outputs data to this port
 	end SensorMonitoring;
 
 -- DEVICES
@@ -128,18 +132,24 @@ public
 	end ScreenDevice.Impl;
 
 	device GrinderDevice
+		features
+			time: in data port Time;
 	end GrinderDevice;
 
 	device implementation GrinderDevice.Impl
 	end GrinderDevice.Impl;
 
 	device PumpDevice
+		features
+			time: in data port Time;
 	end PumpDevice;
 
 	device implementation PumpDevice.Impl
 	end PumpDevice.Impl;
 
 	device HeaterDevice
+		features
+			temp: in data port Temperature;
 	end HeaterDevice;
 
 	device implementation HeaterDevice.Impl
@@ -158,8 +168,6 @@ public
 
 	device implementation SensorDevice.Impl
 	end SensorDevice.Impl;
-
-
 
 ----------
 end CoffeeMachine;
