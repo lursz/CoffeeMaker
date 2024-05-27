@@ -66,7 +66,7 @@ public
 	thread ParametersDownloader
 		features
 			OutParams: out data port;
-			InParams: in event port DataTypes::BeverageParameters;
+			InParams: in data port DataTypes::BeverageParameters;
 	end ParametersDownloader;
 
 
@@ -96,6 +96,7 @@ public
 			outMilk: out data port DataTypes::BeverageParameters;
 			outFrother: out data port DataTypes::BeverageParameters;
             inCheckDone: in event port;	
+			parameters: out data port DataTypes::BeverageParameters;
 	end CoffeeBrewing_Process;
 
 	process implementation CoffeeBrewing_Process.Impl
@@ -107,7 +108,6 @@ public
 			milkCtrl: thread deviceMilkControl;
 			frotherCtrl: thread deviceMilkFrotherControl;
 			parametersDownl: thread ParametersDownloader;
-			SSD: memory Hardware::SSD.Impl;
 		connections
 			-- Connections 
 			coffee: port brewingThread.beverageParamsOutput -> coffeeCtrl.CoffeeInput;
@@ -117,7 +117,6 @@ public
 			milk: port tempCtrl.TemperatureOutput -> milkCtrl.MilkInput;
 			frother: port milkCtrl.MilkOutput -> frotherCtrl.FrotherInput;
 			checkDone: port frotherCtrl.FrotherOutput -> brewingThread.checkDone;	
-			-- SSD
 			paramsSSD: port SSD.presets -> parametersDownl.InParams;	
 			parameters: port parametersDownl.OutParams -> brewingThread.parameters;
 
