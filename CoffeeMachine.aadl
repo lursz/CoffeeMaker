@@ -21,6 +21,7 @@ public
 			checkDone: in event port;
 			startBrewing: out data port DataTypes::BeverageParameters;
 			stopBrewing: in event port;
+			parameters: in data port DataTypes::BeverageParameters;
 		properties
 			Dispatch_Protocol => Sporadic;
 			Priority => 1;
@@ -62,6 +63,12 @@ public
 			InSensor: in event port;
 	end SensorMonitoring;
 
+	thread ParametersDownloader
+		features
+			OutParams: out data port;
+			InParams: in event port DataTypes::BeverageParameters;
+	end ParametersDownloader;
+
 
 	
 -- Process
@@ -93,6 +100,8 @@ public
 			waterCtrl: thread deviceWaterControl;
 			milkCtrl: thread deviceMilkControl;
 			frotherCtrl: thread deviceMilkFrotherControl;
+			parametersDownl: thread ParametersDownloader;
+			SSD: memory Hardware::SSD.Impl;
 		connections
 			-- Connections 
 			coffee: port brewingThread.beverageParamsOutput -> coffeeCtrl.CoffeeInput;
@@ -101,7 +110,10 @@ public
 			milkHeater: port waterCtrl.waterOutput -> tempCtrl.TemperatureInput;
 			milk: port tempCtrl.TemperatureOutput -> milkCtrl.MilkInput;
 			frother: port milkCtrl.MilkOutput -> frotherCtrl.FrotherInput;
-			checkDone: port frotherCtrl.FrotherOutput -> brewingThread.checkDone;		
+			checkDone: port frotherCtrl.FrotherOutput -> brewingThread.checkDone;	
+			-- SSD
+			paramsSSD: port SSD.presets -> parametersDownl.InParams;	
+			parameters: port parametersDownl.OutParams -> brewingThread.parameters;
 
 	end CoffeeBrewing_Process.Impl;
 	
@@ -151,11 +163,11 @@ public
 			frotherSensor: device Devices::Sensor_Device.Impl;
 		connections
 			-- Connections
-			sensor2Coffee: port coffeeSensor.sensor -> sensorsProcess.OutSensor;
-			sensor2Water: port waterSensor.sensor -> sensorsProcess.OutSensor;
-			sensor2Milk: port milkSensor.sensor -> sensorsProcess.OutSensor;
-			sensor2Temp: port tempSensor.sensor -> sensorsProcess.OutSensor;
-			sensor2Frother: port frotherSensor.sensor -> sensorsProcess.OutSensor;
+			sensor2Coffee: port coffeeSensor.sensor -> sensorsProcess.InSensor;
+			sensor2Water: port waterSensor.sensor -> sensorsProcess.InSensor;
+			sensor2Milk: port milkSensor.sensor -> sensorsProcess.InSensor;
+			sensor2Temp: port tempSensor.sensor -> sensorsProcess.InSensor;
+			sensor2Frother: port frotherSensor.sensor -> sensorsProcess.InSensor;
 			magBusAccess1: bus access coffeeSensor.MB -> magBus;
 			magBusAccess2: bus access waterSensor.MB -> magBus;
 			magBusAccess3: bus access milkSensor.MB -> magBus;

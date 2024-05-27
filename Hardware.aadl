@@ -1,5 +1,6 @@
 package Hardware
 public
+    with DataTypes;
 	with SEI;
     
 -- CPU
@@ -23,9 +24,13 @@ public
 	memory SSD
 		features
 			sata: requires bus access SATA;
+			presets: out data port DataTypes::BeverageParameters;
 		properties
 			SEI::GrossWeight => 0.03kg;
-		end SSD;
+	end SSD;
+
+	memory implementation SSD.Impl
+	end SSD.Impl;
 
 
 -- BUS
