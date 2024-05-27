@@ -1,57 +1,8 @@
 package CoffeeMachine
 public
 	with Data_Model; -- np. Base_Types::Integer
+    with DataTypes; -- custom Data Types
 
-	data Temperature
-		properties
-			Data_Model::Data_Representation => Integer;
-			Data_Model::Integer_Range => 0 .. 100; -- Temperature in degrees Celsius
-			Data_Model::Measurement_Unit => "degrees Celsius";
-	end Temperature;
-
-	data Time
-		properties
-			Data_Model::Data_Representation => Integer;
-			Data_Model::Integer_Range => 0 .. 300; -- Time in seconds
-			Data_Model::Measurement_Unit => "seconds";
-	end Time;
-
-	data WaterAmount
-		properties
-			Data_Model::Data_Representation => Integer;
-			Data_Model::Integer_Range => 0 .. 500; -- Water amount in milliliters
-			Data_Model::Measurement_Unit => "ml";
-	end WaterAmount;
-
-	data CoffeeAmount
-		properties
-			Data_Model::Data_Representation => Integer;
-			Data_Model::Integer_Range => 0 .. 100; -- Coffee amount in grams
-			Data_Model::Measurement_Unit => "g";
-	end CoffeeAmount;
-
-	data MilkAmount
-		properties
-			Data_Model::Data_Representation => Integer;
-			Data_Model::Integer_Range => 0 .. 500; -- Milk amount in milliliters
-			Data_Model::Measurement_Unit => "ml";
-	end MilkAmount;
-
-	data BeverageParameters
-	end BeverageParameters;
-
-	data implementation BeverageParameters.impl
-		subcomponents
-			water: data WaterAmount;
-			coffee: data CoffeeAmount;
-			milk: data MilkAmount;
-	end BeverageParameters.impl;
-
-	data NumberOfCycles
-		properties
-			Data_Model::Data_Representation => Integer;
-			Data_Model::Integer_Range => 0 .. 500;
-	end NumberOfCycles;
 
 -- Coffee Machine System
 	system CoffeeMachine
