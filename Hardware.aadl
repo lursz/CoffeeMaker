@@ -1,22 +1,39 @@
 package Hardware
 public
+	with SEI;
     
 -- CPU
 	processor GenericProcessor
 		features
+			SataAccess: requires bus access SATA;
 			magBus: requires bus access MagBus;
+		properties
+			SEI::GrossWeight => 0.05kg;
+
 	end GenericProcessor;
 
 -- MEMORY
     memory GenericMemory
         features
             magBus: requires bus access MagBus;
+		properties
+			SEI::GrossWeight => 0.04kg;
     end GenericMemory;
+
+	memory SSD
+		features
+			sata: requires bus access SATA;
+		properties
+			SEI::GrossWeight => 0.03kg;
+		end SSD;
 
 
 -- BUS
 	bus MagBus
 	end MagBus;
+
+	bus SATA
+	end SATA;
 
 
 end Hardware;

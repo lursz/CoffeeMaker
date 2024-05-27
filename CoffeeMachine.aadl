@@ -82,6 +82,7 @@ public
 			outTemp: out data port DataTypes::BeverageParameters;
 			outMilk: out data port DataTypes::BeverageParameters;
 			outFrother: out data port DataTypes::BeverageParameters;
+            inCheckDone: in event port;	
 	end CoffeeBrewing_Process;
 
 	process implementation CoffeeBrewing_Process.Impl
@@ -150,11 +151,11 @@ public
 			frotherSensor: device Devices::Sensor_Device.Impl;
 		connections
 			-- Connections
-			sensor2Coffee: port coffeeSensor.sensor -> sensorsProcess.InSensor;
-			sensor2Water: port waterSensor.sensor -> sensorsProcess.InSensor;
-			sensor2Milk: port milkSensor.sensor -> sensorsProcess.InSensor;
-			sensor2Temp: port tempSensor.sensor -> sensorsProcess.InSensor;
-			sensor2Frother: port frotherSensor.sensor -> sensorsProcess.InSensor;
+			sensor2Coffee: port coffeeSensor.sensor -> sensorsProcess.OutSensor;
+			sensor2Water: port waterSensor.sensor -> sensorsProcess.OutSensor;
+			sensor2Milk: port milkSensor.sensor -> sensorsProcess.OutSensor;
+			sensor2Temp: port tempSensor.sensor -> sensorsProcess.OutSensor;
+			sensor2Frother: port frotherSensor.sensor -> sensorsProcess.OutSensor;
 			magBusAccess1: bus access coffeeSensor.MB -> magBus;
 			magBusAccess2: bus access waterSensor.MB -> magBus;
 			magBusAccess3: bus access milkSensor.MB -> magBus;

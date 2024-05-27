@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="ASCII"?>
 <diagram:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagram="http://osate.org/diagram" formatVersion="7">
   <element uuid="8963a30c-a044-47e8-917d-0e21f7512902" manual="true">
@@ -216,3 +217,15 @@
     </context>
   </config>
 </diagram:Diagram>
+=======
+<?xml version="1.0" encoding="ASCII"?>
+<diagram:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagram="http://osate.org/diagram" formatVersion="7">
+  <config type="structure" connectionPrimaryLabelsVisible="false">
+    <enabledAadlProperties/>
+    <context>
+      <seg>classifier</seg>
+      <seg>CoffeeMachine::CoffeeDevices_System.Impl</seg>
+    </context>
+  </config>
+</diagram:Diagram>
+>>>>>>> 462d699313ff3d9b512b375484040d64cd9169bb
