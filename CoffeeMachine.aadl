@@ -125,7 +125,11 @@ public
 	process SensorMonitoringProcess
 		features
 			OutSensor: out data port;
-			InSensor: in data port;
+			InCoffeeSensor: in event port;
+			InWaterSensor: in event port;
+			InMilkSensor: in event port;
+			InTempSensor: in event port;
+			InFrotherSensor: in event port;
 	end SensorMonitoringProcess;
 
 	process implementation SensorMonitoringProcess.Impl
@@ -181,11 +185,11 @@ public
 			frotherSensor: device Devices::Sensor_Device.Impl;
 		connections
 			-- Connections
-			sensor2Coffee: port coffeeSensor.sensor -> sensorsProcess.InSensor;
-			sensor2Water: port waterSensor.sensor -> sensorsProcess.InSensor;
-			sensor2Milk: port milkSensor.sensor -> sensorsProcess.InSensor;
-			sensor2Temp: port tempSensor.sensor -> sensorsProcess.InSensor;
-			sensor2Frother: port frotherSensor.sensor -> sensorsProcess.InSensor;
+			sensor2Coffee: port coffeeSensor.sensor -> sensorsProcess.InCoffeeSensor;
+			sensor2Water: port waterSensor.sensor -> sensorsProcess.InWaterSensor;
+			sensor2Milk: port milkSensor.sensor -> sensorsProcess.InMilkSensor;
+			sensor2Temp: port tempSensor.sensor -> sensorsProcess.InTempSensor;
+			sensor2Frother: port frotherSensor.sensor -> sensorsProcess.InFrotherSensor;
 			magBusAccess1: port sensorsProcess.outSensor -> OutSensors;
 	end Sensors_System.Impl;
 	

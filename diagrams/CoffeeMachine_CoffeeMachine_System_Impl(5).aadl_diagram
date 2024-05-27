@@ -13,7 +13,7 @@
         <seg>c1</seg>
       </bo>
       <bendpoints>
-        <point x="2693.24755859375" y="-74.00006103515625"/>
+        <point x="3483.247314453125" y="176.0"/>
       </bendpoints>
     </element>
     <element uuid="f6e93ce0-5346-4cce-b775-ead75fa80711" manual="true">
@@ -28,9 +28,9 @@
         <seg>mag2devmag</seg>
       </bo>
       <bendpoints>
-        <point x="2683.24755859375" y="283.00006103515625"/>
-        <point x="2683.24755859375" y="-61.000030517578125"/>
-        <point x="2689.24755859375" y="-61.000030517578125"/>
+        <point x="3473.247314453125" y="533.0"/>
+        <point x="3473.247314453125" y="189.0"/>
+        <point x="3479.247314453125" y="189.0"/>
       </bendpoints>
     </element>
     <element uuid="ff2b94f5-4a68-41ef-a5fe-29cf86e232ff" manual="true">
@@ -45,8 +45,8 @@
         <seg>process2Screen</seg>
       </bo>
       <bendpoints>
-        <point x="721.536376953125" y="23.00006103515625"/>
-        <point x="721.536376953125" y="-179.00006103515625"/>
+        <point x="1511.5364990234375" y="273.0"/>
+        <point x="1511.5364990234375" y="71.0"/>
       </bendpoints>
     </element>
     <element uuid="c52a9197-94b1-4195-8bff-d89bcc66a262" manual="true">
@@ -67,9 +67,9 @@
         <seg>ram2bus</seg>
       </bo>
       <bendpoints>
-        <point x="2683.24755859375" y="-154.00006103515625"/>
-        <point x="2683.24755859375" y="-86.99993896484375"/>
-        <point x="2689.24755859375" y="-86.99993896484375"/>
+        <point x="3473.247314453125" y="96.0"/>
+        <point x="3473.247314453125" y="163.0"/>
+        <point x="3479.247314453125" y="163.0"/>
       </bendpoints>
     </element>
     <element uuid="11135567-c250-45dd-b58e-a3cd93ef4cc5" manual="true">
@@ -84,7 +84,7 @@
         <seg>SATA2cpu</seg>
       </bo>
       <bendpoints>
-        <point x="1800.647705078125" y="-74.00006103515625"/>
+        <point x="2590.647705078125" y="176.0"/>
       </bendpoints>
     </element>
     <element uuid="72f0510b-f3d6-4352-819c-95aff290a3c3" manual="true">
@@ -99,8 +99,8 @@
         <seg>screen2process</seg>
       </bo>
       <bendpoints>
-        <point x="711.536376953125" y="-229.00006103515625"/>
-        <point x="711.536376953125" y="-26.99993896484375"/>
+        <point x="1501.5364990234375" y="21.0"/>
+        <point x="1501.5364990234375" y="223.0"/>
       </bendpoints>
     </element>
     <element uuid="2c3833d3-5039-4038-b2b9-7aa2f634eb65" manual="true">
@@ -127,8 +127,8 @@
         <seg>sensor2ssd</seg>
       </bo>
       <bendpoints>
-        <point x="741.536376953125" y="123.00006103515625"/>
-        <point x="741.536376953125" y="-49.00006103515625"/>
+        <point x="1531.5364990234375" y="373.0"/>
+        <point x="1531.5364990234375" y="201.0"/>
       </bendpoints>
     </element>
     <element uuid="0836832f-6561-499f-b220-f1079d665fea" manual="true">
@@ -143,8 +143,8 @@
         <seg>ssd2main</seg>
       </bo>
       <bendpoints>
-        <point x="731.536376953125" y="-99.00006103515625"/>
-        <point x="731.536376953125" y="73.00006103515625"/>
+        <point x="1521.5364990234375" y="151.0"/>
+        <point x="1521.5364990234375" y="323.0"/>
       </bendpoints>
     </element>
     <element uuid="a2d6e115-8dba-4d87-b312-baf708e7bac5" manual="true">
@@ -159,7 +159,7 @@
         <seg>ssd2SATA</seg>
       </bo>
       <bendpoints>
-        <point x="1648.614990234375" y="-74.00006103515625"/>
+        <point x="2438.614990234375" y="176.0"/>
       </bendpoints>
     </element>
     <element uuid="a6ebe2d3-bcef-4690-ade0-5c6376267650" manual="true">
@@ -192,7 +192,7 @@
         <seg>subcomponent</seg>
         <seg>CPU</seg>
       </bo>
-      <position x="2794.52587890625" y="214.0"/>
+      <position x="2804.52587890625" y="214.0"/>
       <size width="388.7213592529297" height="60.0"/>
     </element>
     <element uuid="48588f06-eb4b-4bac-bd49-4c83d5e95ea7" manual="true">
@@ -220,8 +220,8 @@
           <seg>checkDoneFrother</seg>
         </bo>
         <bendpoints>
-          <point x="2100.679443359375" y="73.00006103515625"/>
-          <point x="2100.679443359375" y="283.00006103515625"/>
+          <point x="2890.6796875" y="323.0"/>
+          <point x="2890.6796875" y="533.0"/>
         </bendpoints>
       </element>
       <element uuid="5114a322-ec4d-4e38-8712-2a42a6495822" manual="true">
@@ -236,8 +236,8 @@
           <seg>checkDoneMilk</seg>
         </bo>
         <bendpoints>
-          <point x="2100.679443359375" y="388.00006103515625"/>
-          <point x="2100.679443359375" y="283.00006103515625"/>
+          <point x="2890.6796875" y="638.0"/>
+          <point x="2890.6796875" y="533.0"/>
         </bendpoints>
       </element>
       <element uuid="b187fd30-2636-4e33-98db-43ec7a4e8c7b" manual="true">
@@ -252,8 +252,8 @@
           <seg>checkDoneTemp</seg>
         </bo>
         <bendpoints>
-          <point x="2100.679443359375" y="493.00006103515625"/>
-          <point x="2100.679443359375" y="283.00006103515625"/>
+          <point x="2890.6796875" y="743.0"/>
+          <point x="2890.6796875" y="533.0"/>
         </bendpoints>
       </element>
       <element uuid="6599ea83-c586-43aa-bb78-4315c1aad55b" manual="true">
@@ -268,8 +268,8 @@
           <seg>checkDoneWater</seg>
         </bo>
         <bendpoints>
-          <point x="2100.679443359375" y="178.00006103515625"/>
-          <point x="2100.679443359375" y="283.00006103515625"/>
+          <point x="2890.6796875" y="428.0"/>
+          <point x="2890.6796875" y="533.0"/>
         </bendpoints>
       </element>
       <element uuid="c31344ea-a2f1-4b67-ad9c-b8569845b196" manual="true">
@@ -296,8 +296,8 @@
           <seg>process2Coffee</seg>
         </bo>
         <bendpoints>
-          <point x="1793.455322265625" y="173.00006103515625"/>
-          <point x="1793.455322265625" y="283.00006103515625"/>
+          <point x="2583.455810546875" y="423.0"/>
+          <point x="2583.455810546875" y="533.0"/>
         </bendpoints>
       </element>
       <element uuid="dd2cf0c1-7984-4acb-a9a0-3dace32589d2" manual="true">
@@ -324,8 +324,8 @@
           <seg>process2Milk</seg>
         </bo>
         <bendpoints>
-          <point x="1783.455322265625" y="223.00006103515625"/>
-          <point x="1783.455322265625" y="363.00006103515625"/>
+          <point x="2573.455810546875" y="473.0"/>
+          <point x="2573.455810546875" y="613.0"/>
         </bendpoints>
       </element>
       <element uuid="703ea19a-0516-456f-9f39-f6717a5db22a" manual="true">
@@ -340,8 +340,8 @@
           <seg>process2Temp</seg>
         </bo>
         <bendpoints>
-          <point x="1773.455322265625" y="273.00006103515625"/>
-          <point x="1773.455322265625" y="493.00006103515625"/>
+          <point x="2563.455810546875" y="523.0"/>
+          <point x="2563.455810546875" y="743.0"/>
         </bendpoints>
       </element>
       <element uuid="5c9d308d-3da1-4276-ba86-702eb5f3656d" manual="true">
@@ -356,8 +356,8 @@
           <seg>process2Water</seg>
         </bo>
         <bendpoints>
-          <point x="1773.455322265625" y="123.00006103515625"/>
-          <point x="1773.455322265625" y="153.00006103515625"/>
+          <point x="2563.455810546875" y="373.0"/>
+          <point x="2563.455810546875" y="403.0"/>
         </bendpoints>
       </element>
       <element uuid="14e7ff58-f340-4631-9a71-74ca8551e16d" manual="true" dockArea="left">
@@ -558,7 +558,7 @@
         <seg>subcomponent</seg>
         <seg>devicesSystem</seg>
       </bo>
-      <position x="1694.73681640625" y="302.0"/>
+      <position x="1704.73681640625" y="302.0"/>
       <size width="1079.7890319824219" height="551.0"/>
     </element>
     <element uuid="ea14704f-a441-408d-9ced-3799e3f3c9d8" manual="true">
@@ -572,7 +572,7 @@
         <seg>subcomponent</seg>
         <seg>magBus</seg>
       </bo>
-      <position x="3203.247314453125" y="230.0"/>
+      <position x="3213.247314453125" y="230.0"/>
       <size width="166.12109375" height="52.0"/>
     </element>
     <element uuid="e9ccd5e6-ab62-4c0c-a50b-dc3c909da38f" manual="true">
@@ -628,7 +628,7 @@
         <seg>subcomponent</seg>
         <seg>mainProcess</seg>
       </bo>
-      <position x="868.7330322265625" y="261.0"/>
+      <position x="878.7330322265625" y="261.0"/>
       <size width="342.8033905029297" height="260.0"/>
     </element>
     <element uuid="99031fc2-1d43-4d42-a63e-f2fef3ce092e" manual="true">
@@ -649,7 +649,7 @@
         <seg>subcomponent</seg>
         <seg>RAM</seg>
       </bo>
-      <position x="2849.3761444091797" y="134.0"/>
+      <position x="2859.3761444091797" y="134.0"/>
       <size width="333.87109375" height="60.0"/>
     </element>
     <element uuid="5cf17c16-676d-4679-8722-6b965c1efd10" manual="true">
@@ -663,7 +663,7 @@
         <seg>subcomponent</seg>
         <seg>SATA</seg>
       </bo>
-      <position x="2158.615062713623" y="230.0"/>
+      <position x="2168.615062713623" y="230.0"/>
       <size width="152.03253936767578" height="52.0"/>
     </element>
     <element uuid="1715e931-2e29-4f2d-9500-bdc603730d88" manual="true">
@@ -691,7 +691,7 @@
         <seg>subcomponent</seg>
         <seg>screen</seg>
       </bo>
-      <position x="1261.536376953125" y="59.0"/>
+      <position x="1271.536376953125" y="59.0"/>
       <size width="413.20050048828125" height="110.0"/>
     </element>
     <element uuid="1d0d9a33-1e12-4d2f-9ce2-ca2288de179d" manual="true">
@@ -719,8 +719,9 @@
           <seg>sensor2Coffee</seg>
         </bo>
         <bendpoints>
-          <point x="-151.58718872070312" y="-6.99993896484375"/>
-          <point x="-151.58718872070312" y="73.00006103515625"/>
+          <point x="628.4127197265625" y="231.0"/>
+          <point x="628.4127197265625" y="301.0"/>
+          <point x="644.4127197265625" y="301.0"/>
         </bendpoints>
       </element>
       <element uuid="24ef13a7-6c0b-434a-8436-5411688bcc1e" manual="true">
@@ -734,6 +735,11 @@
           <seg>connection</seg>
           <seg>sensor2Frother</seg>
         </bo>
+        <bendpoints>
+          <point x="638.4127197265625" y="151.0"/>
+          <point x="638.4127197265625" y="291.0"/>
+          <point x="644.4127197265625" y="291.0"/>
+        </bendpoints>
       </element>
       <element uuid="16c8dcb7-aad7-436e-9e16-167510676e27" manual="true">
         <element uuid="a3fd7386-f803-45e7-a501-5fcf86cef8cc" manual="true">
@@ -747,8 +753,9 @@
           <seg>sensor2Milk</seg>
         </bo>
         <bendpoints>
-          <point x="-151.58718872070312" y="153.00006103515625"/>
-          <point x="-151.58718872070312" y="73.00006103515625"/>
+          <point x="638.4127197265625" y="471.0"/>
+          <point x="638.4127197265625" y="331.0"/>
+          <point x="644.4127197265625" y="331.0"/>
         </bendpoints>
       </element>
       <element uuid="a3a0c091-b8da-49fe-a875-f6b615e5ae95" manual="true">
@@ -763,8 +770,7 @@
           <seg>sensor2Temp</seg>
         </bo>
         <bendpoints>
-          <point x="-151.58718872070312" y="-86.99993896484375"/>
-          <point x="-151.58718872070312" y="73.00006103515625"/>
+          <point x="648.4127197265625" y="311.0"/>
         </bendpoints>
       </element>
       <element uuid="afa3e52e-5c06-4478-a8fd-55b2adda9aed" manual="true">
@@ -779,8 +785,9 @@
           <seg>sensor2Water</seg>
         </bo>
         <bendpoints>
-          <point x="-151.58718872070312" y="233.00006103515625"/>
-          <point x="-151.58718872070312" y="73.00006103515625"/>
+          <point x="628.4127197265625" y="391.0"/>
+          <point x="628.4127197265625" y="321.0"/>
+          <point x="644.4127197265625" y="321.0"/>
         </bendpoints>
       </element>
       <element uuid="9445ec4e-ed85-456b-8152-3fb46fa16ceb" manual="true" dockArea="right">
@@ -788,16 +795,9 @@
           <seg>feature</seg>
           <seg>OutSensors</seg>
         </bo>
-        <position x="754.3293609619141" y="229.0"/>
+        <position x="764.3293609619141" y="241.0"/>
       </element>
       <element uuid="5c951cdc-435d-43ce-a075-8facfba628db" manual="true">
-        <element uuid="fce5ff0e-3a61-470e-8e17-908e1302d6af" manual="true" dockArea="left">
-          <bo>
-            <seg>feature</seg>
-            <seg>MB</seg>
-          </bo>
-          <position y="10.0"/>
-        </element>
         <element uuid="1e5620b3-bc04-4268-8227-86390757efad" manual="true" dockArea="right">
           <bo>
             <seg>feature</seg>
@@ -813,13 +813,6 @@
         <size width="239.79557037353516" height="60.0"/>
       </element>
       <element uuid="1cda347a-f08b-4be4-ad8e-3721b2ddcae0" manual="true">
-        <element uuid="fffaf4e3-e76f-46cf-a1a1-8b804f348936" manual="true" dockArea="left">
-          <bo>
-            <seg>feature</seg>
-            <seg>MB</seg>
-          </bo>
-          <position y="10.0"/>
-        </element>
         <element uuid="64516578-b7cf-477b-aca2-b1dddd964a2f" manual="true" dockArea="right">
           <bo>
             <seg>feature</seg>
@@ -831,17 +824,10 @@
           <seg>subcomponent</seg>
           <seg>frotherSensor</seg>
         </bo>
-        <position x="94.40364074707031" y="219.0"/>
+        <position x="94.40364074707031" y="59.0"/>
         <size width="242.0091094970703" height="60.0"/>
       </element>
       <element uuid="174c018d-a8bd-4d15-ab12-63213632e085" manual="true">
-        <element uuid="1485acbb-fdb0-4413-884b-4bae62bad123" manual="true" dockArea="left">
-          <bo>
-            <seg>feature</seg>
-            <seg>MB</seg>
-          </bo>
-          <position y="10.0"/>
-        </element>
         <element uuid="17403e75-45de-4db0-897a-adae686cca56" manual="true" dockArea="right">
           <bo>
             <seg>feature</seg>
@@ -853,17 +839,10 @@
           <seg>subcomponent</seg>
           <seg>milkSensor</seg>
         </bo>
-        <position x="109.24087524414062" y="299.0"/>
+        <position x="109.24087524414062" y="379.0"/>
         <size width="227.171875" height="60.0"/>
       </element>
       <element uuid="ee198383-0897-4277-9caf-a908eda0dff7" manual="true">
-        <element uuid="99db7603-71ca-491e-8e52-66d642f3841c" manual="true" dockArea="left">
-          <bo>
-            <seg>feature</seg>
-            <seg>InSensor</seg>
-          </bo>
-          <position y="10.0"/>
-        </element>
         <element uuid="21459d1b-0d34-4730-a67c-6fc0bd529ec4" manual="true" dockArea="right">
           <bo>
             <seg>feature</seg>
@@ -875,17 +854,10 @@
           <seg>subcomponent</seg>
           <seg>sensorsProcess</seg>
         </bo>
-        <position x="356.41273498535156" y="219.0"/>
+        <position x="366.41273498535156" y="231.0"/>
         <size width="303.5130157470703" height="60.0"/>
       </element>
       <element uuid="6cd777f7-75d4-42d6-b8d0-0f32d8781a2e" manual="true">
-        <element uuid="9d1c73f7-9507-47ad-b1ee-d1e34e335f52" manual="true" dockArea="left">
-          <bo>
-            <seg>feature</seg>
-            <seg>MB</seg>
-          </bo>
-          <position y="10.0"/>
-        </element>
         <element uuid="7c639edd-99ea-4df4-9661-3a47cfb343e6" manual="true" dockArea="right">
           <bo>
             <seg>feature</seg>
@@ -897,17 +869,10 @@
           <seg>subcomponent</seg>
           <seg>tempSensor</seg>
         </bo>
-        <position x="103.29686737060547" y="59.0"/>
+        <position x="103.29686737060547" y="219.0"/>
         <size width="233.11588287353516" height="60.0"/>
       </element>
       <element uuid="fb686b04-5a6a-4ebb-8358-eed581d15a40" manual="true">
-        <element uuid="523bd3af-001f-4b17-adc9-23758a416ad5" manual="true" dockArea="left">
-          <bo>
-            <seg>feature</seg>
-            <seg>MB</seg>
-          </bo>
-          <position y="10.0"/>
-        </element>
         <element uuid="7d046ac2-688f-4215-936b-64790c5c21ba" manual="true" dockArea="right">
           <bo>
             <seg>feature</seg>
@@ -919,7 +884,7 @@
           <seg>subcomponent</seg>
           <seg>waterSensor</seg>
         </bo>
-        <position x="100.33462524414062" y="379.0"/>
+        <position x="100.33462524414062" y="299.0"/>
         <size width="236.078125" height="60.0"/>
       </element>
       <element uuid="c3545c6b-71a1-4549-9a07-9ce1f8e48b37" manual="true">
@@ -932,8 +897,8 @@
         <seg>subcomponent</seg>
         <seg>sensorsSystem</seg>
       </bo>
-      <position x="12.0" y="142.0"/>
-      <size width="836.7330017089844" height="451.0"/>
+      <position x="12.0" y="130.0"/>
+      <size width="846.7330017089844" height="451.0"/>
     </element>
     <element uuid="ed9db3c4-8c18-4390-b955-8b46b4738f61" manual="true">
       <element uuid="e08c8758-6d56-45de-b569-446c588e2d88" manual="true" dockArea="left">
@@ -967,15 +932,15 @@
         <seg>subcomponent</seg>
         <seg>SSD</seg>
       </bo>
-      <position x="1313.912676493327" y="189.0"/>
+      <position x="1323.912676493327" y="189.0"/>
       <size width="256.0716018676758" height="110.0"/>
     </element>
     <bo>
       <seg>classifier</seg>
       <seg>CoffeeMachine_System.Impl</seg>
     </bo>
-    <position x="-510.0" y="-330.0"/>
-    <size width="3381.368408203125" height="865.0"/>
+    <position x="270.0" y="-80.0"/>
+    <size width="3391.368408203125" height="865.0"/>
   </element>
   <config type="structure" connectionPrimaryLabelsVisible="false">
     <enabledAadlProperties/>

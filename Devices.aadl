@@ -69,7 +69,6 @@ public
 	device Sensor_Device
 		features
 			sensor: out data port;
-			MB: requires bus access Hardware::MagBus;
 		properties
 			SEI::GrossWeight => 0.5kg;
 	end Sensor_Device;
