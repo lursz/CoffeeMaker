@@ -75,6 +75,14 @@ public
 
 
 	process CoffeeBrewing_Process
+		features
+			inBrewing: in data port DataTypes::BeverageParameters;
+			outCoffee: out data port DataTypes::BeverageParameters;
+			outWater: out data port DataTypes::BeverageParameters;
+			outTemp: out data port DataTypes::BeverageParameters;
+			outMilk: out data port DataTypes::BeverageParameters;
+			outFrother: out data port DataTypes::BeverageParameters;
+            inCheckDone: in event port;	
 	end CoffeeBrewing_Process;
 
 	process implementation CoffeeBrewing_Process.Impl
@@ -98,6 +106,9 @@ public
 	end CoffeeBrewing_Process.Impl;
 	
 	process SensorMonitoringProcess
+		features
+			OutSensor: out data port;
+			InSensor: in event port;
 	end SensorMonitoringProcess;
 
 	process implementation SensorMonitoringProcess.Impl
@@ -130,10 +141,27 @@ public
 	
 	system implementation Sensors_System.Impl
 		subcomponents
+			magBus: bus Hardware::MagBus;
 			sensorsProcess: process SensorMonitoringProcess;
 			coffeeSensor: device Devices::Sensor_Device.Impl;
 			waterSensor: device Devices::Sensor_Device.Impl;
 			milkSensor: device Devices::Sensor_Device.Impl;
+			tempSensor: device Devices::Sensor_Device.Impl;
+			frotherSensor: device Devices::Sensor_Device.Impl;
+		connections
+			-- Connections
+			sensor2Coffee: port coffeeSensor.sensor -> sensorsProcess.OutSensor;
+			sensor2Water: port waterSensor.sensor -> sensorsProcess.OutSensor;
+			sensor2Milk: port milkSensor.sensor -> sensorsProcess.OutSensor;
+			sensor2Temp: port tempSensor.sensor -> sensorsProcess.OutSensor;
+			sensor2Frother: port frotherSensor.sensor -> sensorsProcess.OutSensor;
+			magBusAccess1: bus access coffeeSensor.MB -> magBus;
+			magBusAccess2: bus access waterSensor.MB -> magBus;
+			magBusAccess3: bus access milkSensor.MB -> magBus;
+			magBusAccess4: bus access tempSensor.MB -> magBus;
+			magBusAccess5: bus access frotherSensor.MB -> magBus;
+
+
 	end Sensors_System.Impl;
 	
 	system CoffeeDevices_System
@@ -141,12 +169,28 @@ public
 
 	system implementation CoffeeDevices_System.Impl
 		subcomponents
-			coffeeBrewingProcess: process CoffeeBrewing_Process;
+			magBus: bus Hardware::MagBus;
+			coffeeBrewingProcess: process CoffeeBrewing_Process.Impl;
 			grinder: device Devices::Grinder_Device.Impl;
 			waterPump: device Devices::Pump_Device.Impl;
 			waterHeater: device Devices::Heater_Device.Impl;
 			milkPump: device Devices::Pump_Device.Impl;
 			milkFrother: device Devices::Frother_Device.Impl;
+		connections
+			process2Coffee: port coffeeBrewingProcess.outCoffee -> grinder.coffee;
+            process2Water: port coffeeBrewingProcess.outWater -> waterPump.water;
+            process2Temp: port coffeeBrewingProcess.outTemp -> waterHeater.temp;
+            process2Milk: port coffeeBrewingProcess.outMilk -> milkPump.milk;
+            process2Frother: port coffeeBrewingProcess.outFrother -> milkFrother.temp;
+			checkDoneCoffee: port grinder.checkDone -> magBus;
+			checkDoneWater: port waterPump.checkDone -> magBus;
+			checkDoneTemp: port waterHeater.checkDone -> magBus;
+			checkDoneMilk: port milkPump.checkDone -> magBus;
+			checkDoneFrother: port milkFrother.checkDone -> magBus;
+			
+            	
+            
+						
 	end CoffeeDevices_System.Impl;
 
 
