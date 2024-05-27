@@ -1,168 +1,163 @@
 package CoffeeMachine
 public
-	with Base_Types; -- np. Base_Types::Integer
-	with Data_Model;
+	with Data_Model; -- np. Base_Types::Integer
 
--- Data Types
-data Temperature
-    properties
-        Data_Representation => Integer;
-        Data_Range => range 0 .. 100; -- Temperature in degrees Celsius
-        Unit => "degrees Celsius";
-end Temperature;
+	data Temperature
+		properties
+			Data_Model::Data_Representation => Integer;
+			Data_Model::Integer_Range => 0 .. 100; -- Temperature in degrees Celsius
+			Data_Model::Measurement_Unit => "degrees Celsius";
+	end Temperature;
 
-data Time
-    properties
-        Data_Representation => Integer;
-        Data_Range => range 0 .. 300; -- Time in seconds
-        Unit => "seconds";
-end Time;
+	data Time
+		properties
+			Data_Model::Data_Representation => Integer;
+			Data_Model::Integer_Range => 0 .. 300; -- Time in seconds
+			Data_Model::Measurement_Unit => "seconds";
+	end Time;
 
-data WaterAmount
-    properties
-        Data_Representation => Integer;
-        Data_Range => range 0 .. 500; -- Water amount in milliliters
-        Unit => "ml";
-end WaterAmount;
+	data WaterAmount
+		properties
+			Data_Model::Data_Representation => Integer;
+			Data_Model::Integer_Range => 0 .. 500; -- Water amount in milliliters
+			Data_Model::Measurement_Unit => "ml";
+	end WaterAmount;
 
-data CoffeeAmount
-    properties
-        Data_Representation => Integer;
-        Data_Range => range 0 .. 100; -- Coffee amount in grams
-        Unit => "g";
-end CoffeeAmount;
+	data CoffeeAmount
+		properties
+			Data_Model::Data_Representation => Integer;
+			Data_Model::Integer_Range => 0 .. 100; -- Coffee amount in grams
+			Data_Model::Measurement_Unit => "g";
+	end CoffeeAmount;
 
-data MilkAmount
-    properties
-        Data_Representation => Integer;
-        Data_Range => range 0 .. 500; -- Milk amount in milliliters
-        Unit => "ml";
-end MilkAmount;
+	data MilkAmount
+		properties
+			Data_Model::Data_Representation => Integer;
+			Data_Model::Integer_Range => 0 .. 500; -- Milk amount in milliliters
+			Data_Model::Measurement_Unit => "ml";
+	end MilkAmount;
 
-data BeverageParameters
-    features
-        water: in data port WaterAmount;
-        coffee: in data port CoffeeAmount;
-        milk: in data port MilkAmount;
-end BeverageParameters;
+	data BeverageParameters
+	end BeverageParameters;
 
-data NumberOfCycles
-	properties
-		Data_Representation => Integer;
-		Data_Range => range 0 .. 500;
-end NumberOfCycles;
+	data implementation BeverageParameters.impl
+		subcomponents
+			water: data WaterAmount;
+			coffee: data CoffeeAmount;
+			milk: data MilkAmount;
+	end BeverageParameters.impl;
 
+	data NumberOfCycles
+		properties
+			Data_Model::Data_Representation => Integer;
+			Data_Model::Integer_Range => 0 .. 500;
+	end NumberOfCycles;
 
 -- Coffee Machine System
-system CoffeeMachine
-end CoffeeMachine;
+	system CoffeeMachine
+	end CoffeeMachine;
 
 -- SYSTEM
-system implementation CoffeeMachine.Impl
-    subcomponents
-        cpu1: processor GenericProcessor;
-        coffeeProcess: process MainProcess.Impl;
-        screen: device ScreenDevice.Impl;
-        grinder: device GrinderDevice.Impl;
-        waterPump: device PumpDevice.Impl;
-        waterHeater: device HeaterDevice.Impl;
-        milkPump: device PumpDevice.Impl;
-        milkFrother: device FrotherDevice.Impl;
-        coffeeSensor: device SensorDevice.Impl;
-        waterSensor: device SensorDevice.Impl;
-        milkSensor: device SensorDevice.Impl;
-end CoffeeMachine.Impl;
-
+	system implementation CoffeeMachine.Impl
+		subcomponents
+			cpu1: processor GenericProcessor;
+			coffeeProcess: process MainProcess.Impl;
+			screen: device ScreenDevice.Impl;
+			grinder: device GrinderDevice.Impl;
+			waterPump: device PumpDevice.Impl;
+			waterHeater: device HeaterDevice.Impl;
+			milkPump: device PumpDevice.Impl;
+			milkFrother: device FrotherDevice.Impl;
+			coffeeSensor: device SensorDevice.Impl;
+			waterSensor: device SensorDevice.Impl;
+			milkSensor: device SensorDevice.Impl;
+	end CoffeeMachine.Impl;
 
 -- CPU
-processor GenericProcessor
-end GenericProcessor;
-		
-process CPUProcess
-end CPUProcess;
+	processor GenericProcessor
+	end GenericProcessor;
 
-process MainProcess
-end MainProcess;
+	process CPUProcess
+	end CPUProcess;
 
-process implementation MainProcess.Impl
-    subcomponents
-        uiThread: thread UserInterface;
-        brewingThread: thread BrewingControl;
-        sensorThread: thread SensorMonitoring;
-end MainProcess.Impl;
+	process MainProcess
+	end MainProcess;
 
+	process implementation MainProcess.Impl
+		subcomponents
+			uiThread: thread UserInterface;
+			brewingThread: thread BrewingControl;
+			sensorThread: thread SensorMonitoring;
+	end MainProcess.Impl;
 
 -- THREADS
-thread UserInterface
-    features
-        beverageParams: in data port BeverageParameters;
-        displayOutput: out data port;
-    properties
-        Dispatch_Protocol => Periodic;
-        Period => 100 ms;  -- Update display every 100 milliseconds
-end UserInterface;
+	thread UserInterface
+		features
+			beverageParams: in data port BeverageParameters;
+			displayOutput: out data port;
+		properties
+			Dispatch_Protocol => Periodic;
+			Period => 100ms; -- Update display every 100 milliseconds
+	end UserInterface;
 
-thread BrewingControl
-    features
-        startBrewing: in event port;
-        stopBrewing: in event port;
-        beverageParams: in data port BeverageParameters;
-        brewingTemperature: in data port Temperature;
-        brewingTime: in data port Time;
-    properties
-        Dispatch_Protocol => Sporadic;
-        Priority => 1;
-end BrewingControl;
+	thread BrewingControl
+		features
+			beverageParams: in data port BeverageParameters;
+			brewingTemperature: in data port Temperature;
+			brewingTime: in data port Time;
+			startBrewing: in event port;
+			stopBrewing: in event port;
+		properties
+			Dispatch_Protocol => Sporadic;
+			Priority => 1;
+	end BrewingControl;
 
-thread SensorMonitoring
-    features
-        sensorData: out data port;  -- Sensor outputs data to this port
-    properties
-        Dispatch_Protocol => Periodic;
-        Period => 50 ms;  -- Check sensors every 50 milliseconds
-end SensorMonitoring;
-
+	thread SensorMonitoring
+		features
+			sensorData: out data port; -- Sensor outputs data to this port
+		properties
+			Dispatch_Protocol => Periodic;
+			Period => 50ms; -- Check sensors every 50 milliseconds
+	end SensorMonitoring;
 
 -- DEVICES
-device ScreenDevice
-end ScreenDevice;
+	device ScreenDevice
+	end ScreenDevice;
 
-device implementation ScreenDevice.Impl
-end ScreenDevice.Impl;
+	device implementation ScreenDevice.Impl
+	end ScreenDevice.Impl;
 
-device GrinderDevice
-end GrinderDevice;
+	device GrinderDevice
+	end GrinderDevice;
 
-device implementation GrinderDevice.Impl
-end GrinderDevice.Impl;
+	device implementation GrinderDevice.Impl
+	end GrinderDevice.Impl;
 
-device PumpDevice
-end PumpDevice;
+	device PumpDevice
+	end PumpDevice;
 
-device implementation PumpDevice.Impl
-end PumpDevice.Impl;
+	device implementation PumpDevice.Impl
+	end PumpDevice.Impl;
 
-device HeaterDevice
-end HeaterDevice;
+	device HeaterDevice
+	end HeaterDevice;
 
-device implementation HeaterDevice.Impl
-end HeaterDevice.Impl;
+	device implementation HeaterDevice.Impl
+	end HeaterDevice.Impl;
 
-device FrotherDevice
-end FrotherDevice;
+	device FrotherDevice
+	end FrotherDevice;
 
-device implementation FrotherDevice.Impl
-end FrotherDevice.Impl;
+	device implementation FrotherDevice.Impl
+	end FrotherDevice.Impl;
 
-device SensorDevice
-    features
-        sensorOutput: out data port;  -- Correct direction of sensor data output
-end SensorDevice;
+	device SensorDevice
+		features
+			sensorOutput: out data port; -- Correct direction of sensor data output
+	end SensorDevice;
 
-device implementation SensorDevice.Impl
-    features
-        sensorOutput: out data port;  -- Sensors typically output data
-end SensorDevice.Impl;
+	device implementation SensorDevice.Impl
+	end SensorDevice.Impl;
 
 
 
