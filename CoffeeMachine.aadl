@@ -8,7 +8,7 @@ public
 	thread UserInterface
 		features
 			beverageParams: out data port DataTypes::BeverageParameters;
-			displayOutput: out data port;
+			displayOutput: out data port DataTypes::BeverageParameters;
 		properties
 			Dispatch_Protocol => Periodic;
 			Period => 100ms; -- Update display every 100 milliseconds
@@ -79,11 +79,15 @@ public
 			inSensor: in data port;
 			outSensor: out data port;
 			triggerBeverage: out data port DataTypes::BeverageParameters;
+			inMemory: in data port DataTypes::BeverageParameters;
 	end MainProcess;
 
 	process implementation MainProcess.Impl
 		subcomponents
 			uiThread: thread UserInterface;
+			presets: thread ParametersDownloader;
+		connections
+			presets2main: port uiThread.displayOutput -> presets.inParams;
 	end MainProcess.Impl;
 
 
@@ -96,7 +100,6 @@ public
 			outMilk: out data port DataTypes::BeverageParameters;
 			outFrother: out data port DataTypes::BeverageParameters;
             inCheckDone: in event port;	
-			parameters: out data port DataTypes::BeverageParameters;
 	end CoffeeBrewing_Process;
 
 	process implementation CoffeeBrewing_Process.Impl
@@ -117,8 +120,6 @@ public
 			milk: port tempCtrl.TemperatureOutput -> milkCtrl.MilkInput;
 			frother: port milkCtrl.MilkOutput -> frotherCtrl.FrotherInput;
 			checkDone: port frotherCtrl.FrotherOutput -> brewingThread.checkDone;	
-			paramsSSD: port SSD.presets -> parametersDownl.InParams;	
-			parameters: port parametersDownl.OutParams -> brewingThread.parameters;
 
 	end CoffeeBrewing_Process.Impl;
 	
@@ -160,6 +161,7 @@ public
 			process2subsystem: port mainProcess.triggerBeverage -> devicesSystem.inBeverage;
 			sensor2Process: port sensorsSystem.outSensors -> mainProcess.inSensor;
 			sensor2ssd: port mainProcess.outSensor -> SSD.inData;
+			ssd2main: port ssd.presets -> mainProcess.inMemory;
 
 	end CoffeeMachine_System.Impl;
 
