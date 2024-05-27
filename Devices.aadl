@@ -5,45 +5,51 @@ public
 
     -- DEVICES
 	device Screen_Device
-		features
-			displayOutput: out data port;
-			displayInput: in data port DataTypes::BeverageParameters;
 	end Screen_Device;
 
 	device implementation Screen_Device.Impl
+		features
+			displayOutput: out data port;
+			displayInput: in data port DataTypes::BeverageParameters;
 	end Screen_Device.Impl;
+
 
 	device Grinder_Device
 		features
-			time: in data port DataTypes::Time;
+			coffee: in data port DataTypes::BeverageParameters;
 	end Grinder_Device;
 
 	device implementation Grinder_Device.Impl
 	end Grinder_Device.Impl;
 
+
 	device Pump_Device
 		features
-			time: in data port DataTypes::Time;
+			milk: in data port DataTypes::BeverageParameters;
+            water: in data port DataTypes::BeverageParameters;     
 	end Pump_Device;
 
 	device implementation Pump_Device.Impl
 	end Pump_Device.Impl;
 
+
 	device Heater_Device
 		features
-			temp: in data port DataTypes::Temperature;
+			temp: in data port DataTypes::BeverageParameters;
 	end Heater_Device;
 
 	device implementation Heater_Device.Impl
 	end Heater_Device.Impl;
 
+
 	device Frother_Device
         features
-            temp: in data port DataTypes::Temperature;
+            temp: in data port DataTypes::BeverageParameters;
 	end Frother_Device;
 
 	device implementation Frother_Device.Impl
 	end Frother_Device.Impl;
+
 
 	device Sensor_Device
 		features

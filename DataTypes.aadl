@@ -47,6 +47,7 @@ public
 			water: data WaterAmount;
 			coffee: data CoffeeAmount;
 			milk: data MilkAmount;
+			temperature: data Temperature;
 	end BeverageParameters.impl;
 
 	data NumberOfCycles

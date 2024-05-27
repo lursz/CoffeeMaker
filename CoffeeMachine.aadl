@@ -17,15 +17,37 @@ public
 	thread BrewingControl
 		features
 			beverageParams: in data port DataTypes::BeverageParameters;
-			pumpParams: out data port DataTypes::Time;
-			heatParams: out data port DataTypes::Temperature;
-			grinderParams: out data port DataTypes::Time;
-			startBrewing: out event port;
+			checkDone: in event port;
+			startBrewing: out event port DataTypes::BeverageParameters;
 			stopBrewing: in event port;
 		properties
 			Dispatch_Protocol => Sporadic;
 			Priority => 1;
 	end BrewingControl;
+	
+	thread deviceWaterControl
+		features 
+			WaterInput: in data port DataTypes::BeverageParameters;
+			waterOutput: out data port DataTypes::BeverageParameters;
+	end deviceWaterControl;
+
+	thread deviceCoffeeControl
+		features 
+			CoffeeInput: in data port DataTypes::BeverageParameters;
+			CoffeeOutput: out data port DataTypes::BeverageParameters;
+	end deviceCoffeeControl;
+
+	thread deviceMilkControl
+		features 
+			MilkInput: in data port DataTypes::BeverageParameters;
+			MilkOutput: out data port;
+	end deviceMilkControl;
+
+	thread deviceTemperatureControl
+		features 
+			TemperatureInput: in data port DataTypes::BeverageParameters;
+			TemperatureOutput: out data port DataTypes::BeverageParameters;
+	end deviceTemperatureControl;
 
 	thread SensorMonitoring
 		features
@@ -42,10 +64,6 @@ public
 	process implementation MainProcess.Impl
 		subcomponents
 			uiThread: thread UserInterface;
-		connections
-			-- Connections within MainProcess
-			t1: port uiThread.beverageParams -> brewingProcess.brewingThread.beverageParams;
-			t2: port uiThread.displayOutput -> screen.displayOutput;
 	end MainProcess.Impl;
 
 
@@ -54,15 +72,19 @@ public
 
 	process implementation CoffeeBrewing_Process.Impl
 		subcomponents
-			monitorProcess: process SensorMonitoringProcess.Impl;
 			brewingThread: thread BrewingControl;
+			tempCtrl: thread deviceTemperatureControl;
+			coffeeCtrl: thread deviceCoffeeControl;
+			waterCtrl: thread deviceWaterControl;
+			milkCtrl: thread deviceMilkControl;
 		connections
-			-- Connections within MainProcess
-			t2: port brewingThread.pumpParams -> waterPump.time;
-			t3: port brewingThread.heatParams -> waterHeater.temp;
-			t4: port brewingThread.pumpParams -> milkPump.time;
-			t5: port brewingThread.heatParams -> milkFrother.temp;
-			
+			-- Connections 
+			coffee: port brewingThread.beverageParams -> coffeeCtrl.CoffeeInput;
+			waterHeater: port coffeeCtrl.CoffeeOutput -> tempCtrl.TemperatureInput;
+			water: port tempCtrl.TemperatureOutput -> waterCtrl.WaterInput;
+			milkHeater: port waterCtrl.waterOutput -> tempCtrl.TemperatureInput;
+			milk: port tempCtrl.TemperatureOutput -> milkCtrl.MilkInput;
+			checkDone: port milkCtrl.MilkOutput -> brewingThread.checkDone;		
 
 	end CoffeeBrewing_Process.Impl;
 	
@@ -71,18 +93,7 @@ public
 
 	process implementation SensorMonitoringProcess.Impl
 		subcomponents
-			brewingProcess: process CoffeeBrewing_Process.Impl;
 			sensorThread: thread SensorMonitoring;
-			coffeeSensor: device Devices::Sensor_Device;
-			waterSensor: device Devices::Sensor_Device;
-			milkSensor: device Devices::Sensor_Device;
-		connections
-			-- Connections within SensorMonitoringProcess
-			p0: port brewingProcess.brewingThread.startBrewing -> sensorThread.InSensor;	
-			p1: port coffeeSensor.sensorOutput -> sensorThread.InSensor;
-			p2: port waterSensor.sensorOutput -> sensorThread.InSensor;
-			p3: port milkSensor.sensorOutput -> sensorThread.InSensor;
-			p4: port sensorThread.OutSensor -> brewingProcess.brewingThread.stopBrewing;
 	end SensorMonitoringProcess.Impl;
 
 
@@ -93,13 +104,16 @@ public
 
 	system implementation CoffeeMachine_System.Impl
 		subcomponents
-			cpu: processor Hardware::GenericProcessor;
+			CPU: processor Hardware::GenericProcessor;
 			magBus: bus Hardware::MagBus;
+			RAM: memory Hardware::GenericMemory;
+			devicesSystem: system CoffeeDevices_System;
+			sensorsSystem: system Sensors_System;
 			screen: device Devices::Screen_Device.Impl;
-			dvices: system CoffeeDevices_System;
-			sensors: system Sensors_System;
 		connections
 			c1: bus access cpu.magBus -> magBus;
+
+
 	end CoffeeMachine_System.Impl;
 
 	system Sensors_System
