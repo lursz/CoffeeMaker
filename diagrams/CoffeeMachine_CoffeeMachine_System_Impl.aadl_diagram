@@ -4,7 +4,7 @@
     <enabledAadlProperties/>
     <context>
       <seg>classifier</seg>
-      <seg>CoffeeMachine::MainProcess.Impl</seg>
+      <seg>CoffeeMachine::CoffeeMachine_System.Impl</seg>
     </context>
   </config>
 </diagram:Diagram>

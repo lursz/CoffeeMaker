@@ -1,7 +1,5 @@
 package Hardware
 public
-    with Base_Types;
-
     
 -- CPU
 	processor GenericProcessor
