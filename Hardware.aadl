@@ -23,6 +23,7 @@ public
 	memory SSD
 		features
 			sata: requires bus access SATA;
+			inData: in data port;
 		properties
 			SEI::GrossWeight => 0.03kg;
 		end SSD;
