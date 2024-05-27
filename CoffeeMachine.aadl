@@ -16,9 +16,10 @@ public
 
 	thread BrewingControl
 		features
-			beverageParams: in data port DataTypes::BeverageParameters;
+			beverageParamsInput: in data port DataTypes::BeverageParameters;
+			beverageParamsOutput: out data port DataTypes::BeverageParameters;
 			checkDone: in event port;
-			startBrewing: out event port DataTypes::BeverageParameters;
+			startBrewing: out data port DataTypes::BeverageParameters;
 			stopBrewing: in event port;
 		properties
 			Dispatch_Protocol => Sporadic;
@@ -37,18 +38,24 @@ public
 			CoffeeOutput: out data port DataTypes::BeverageParameters;
 	end deviceCoffeeControl;
 
-	thread deviceMilkControl
-		features 
-			MilkInput: in data port DataTypes::BeverageParameters;
-			MilkOutput: out data port;
-	end deviceMilkControl;
-
 	thread deviceTemperatureControl
 		features 
 			TemperatureInput: in data port DataTypes::BeverageParameters;
 			TemperatureOutput: out data port DataTypes::BeverageParameters;
 	end deviceTemperatureControl;
 
+	thread deviceMilkControl
+		features 
+			MilkInput: in data port DataTypes::BeverageParameters;
+			MilkOutput: out event port;
+	end deviceMilkControl;
+	
+	thread deviceMilkFrotherControl
+		features
+			FrotherInput: in event port;
+			FrotherOutput: out event port;
+	end deviceMilkFrotherControl;
+	
 	thread SensorMonitoring
 		features
 			OutSensor: out data port; -- Sensor outputs data to this port
@@ -77,14 +84,16 @@ public
 			coffeeCtrl: thread deviceCoffeeControl;
 			waterCtrl: thread deviceWaterControl;
 			milkCtrl: thread deviceMilkControl;
+			frotherCtrl: thread deviceMilkFrotherControl;
 		connections
 			-- Connections 
-			coffee: port brewingThread.beverageParams -> coffeeCtrl.CoffeeInput;
+			coffee: port brewingThread.beverageParamsOutput -> coffeeCtrl.CoffeeInput;
 			waterHeater: port coffeeCtrl.CoffeeOutput -> tempCtrl.TemperatureInput;
 			water: port tempCtrl.TemperatureOutput -> waterCtrl.WaterInput;
 			milkHeater: port waterCtrl.waterOutput -> tempCtrl.TemperatureInput;
 			milk: port tempCtrl.TemperatureOutput -> milkCtrl.MilkInput;
-			checkDone: port milkCtrl.MilkOutput -> brewingThread.checkDone;		
+			frother: port milkCtrl.MilkOutput -> frotherCtrl.FrotherInput;
+			checkDone: port frotherCtrl.FrotherOutput -> brewingThread.checkDone;		
 
 	end CoffeeBrewing_Process.Impl;
 	
