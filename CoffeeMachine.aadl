@@ -99,7 +99,6 @@ public
 			outTemp: out data port DataTypes::BeverageParameters;
 			outMilk: out data port DataTypes::BeverageParameters;
 			outFrother: out data port DataTypes::BeverageParameters;
-            inCheckDone: in event port;	
 	end CoffeeBrewing_Process;
 
 	process implementation CoffeeBrewing_Process.Impl
@@ -126,7 +125,7 @@ public
 	process SensorMonitoringProcess
 		features
 			OutSensor: out data port;
-			InSensor: in event port;
+			InSensor: in data port;
 	end SensorMonitoringProcess;
 
 	process implementation SensorMonitoringProcess.Impl
@@ -162,18 +161,18 @@ public
 			sensor2Process: port sensorsSystem.outSensors -> mainProcess.inSensor;
 			sensor2ssd: port mainProcess.outSensor -> SSD.inData;
 			ssd2main: port ssd.presets -> mainProcess.inMemory;
+			mag2devmag: bus access devicesSystem.magBus -> magBus;
 
 	end CoffeeMachine_System.Impl;
 
 	system Sensors_System
 		features
-			OutSensors: out data port;
+			inSensors: in data port;
+			OutSensors: out data port;			
 	end Sensors_System;
 	
 	system implementation Sensors_System.Impl
 		subcomponents
-			magBus: bus Hardware::MagBus;
-			cpu: processor Hardware::GenericProcessor;
 			sensorsProcess: process SensorMonitoringProcess;
 			coffeeSensor: device Devices::Sensor_Device.Impl;
 			waterSensor: device Devices::Sensor_Device.Impl;
@@ -187,23 +186,17 @@ public
 			sensor2Milk: port milkSensor.sensor -> sensorsProcess.InSensor;
 			sensor2Temp: port tempSensor.sensor -> sensorsProcess.InSensor;
 			sensor2Frother: port frotherSensor.sensor -> sensorsProcess.InSensor;
-			magBusAccess1: bus access coffeeSensor.MB -> magBus;
-			magBusAccess2: bus access waterSensor.MB -> magBus;
-			magBusAccess3: bus access milkSensor.MB -> magBus;
-			magBusAccess4: bus access tempSensor.MB -> magBus;
-			magBusAccess5: bus access frotherSensor.MB -> magBus;
-			CPU2Mag: bus access magbus -> CPU.magBus;
+			magBusAccess1: port sensorsProcess.outSensor -> OutSensors;
 	end Sensors_System.Impl;
 	
 	system CoffeeDevices_System
 		features
 			InBeverage: in data port DataTypes::BeverageParameters;
+			magBus: requires bus access Hardware::MagBus;
 	end CoffeeDevices_System;
 
 	system implementation CoffeeDevices_System.Impl
 		subcomponents
-			magBus: bus Hardware::MagBus;
-			cpu: processor Hardware::GenericProcessor;
 			coffeeBrewingProcess: process CoffeeBrewing_Process.Impl;
 			grinder: device Devices::Grinder_Device.Impl;
 			waterPump: device Devices::Pump_Device.Impl;
@@ -222,7 +215,6 @@ public
 			checkDoneTemp: bus access waterHeater.checkDone -> magBus;
 			checkDoneMilk: bus access milkPump.checkDone -> magBus;
 			checkDoneFrother: bus access milkFrother.checkDone -> magBus;
-			CPU2Mag: bus access magBus -> cpu.magBus;					
 	end CoffeeDevices_System.Impl;
 
 
