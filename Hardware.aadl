@@ -25,6 +25,7 @@ public
 		features
 			sata: requires bus access SATA;
 			presets: out data port DataTypes::BeverageParameters;
+			inData: in data port;
 		properties
 			SEI::GrossWeight => 0.03kg;
 	end SSD;

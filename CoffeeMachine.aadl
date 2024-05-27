@@ -73,6 +73,12 @@ public
 	
 -- Process
 	process MainProcess
+		features
+			inScreen: in data port DataTypes::BeverageParameters;
+			outScreen: out data port;
+			inSensor: in data port;
+			outSensor: out data port;
+			triggerBeverage: out data port DataTypes::BeverageParameters;
 	end MainProcess;
 
 	process implementation MainProcess.Impl
@@ -137,18 +143,30 @@ public
 	system implementation CoffeeMachine_System.Impl
 		subcomponents
 			CPU: processor Hardware::GenericProcessor;
+			mainProcess: process MainProcess;
 			magBus: bus Hardware::MagBus;
 			RAM: memory Hardware::GenericMemory;
-			devicesSystem: system CoffeeDevices_System;
-			sensorsSystem: system Sensors_System;
+			SSD: memory Hardware::SSD;
+			SATA: bus HArdware::SATA;
+			devicesSystem: system CoffeeDevices_System.impl;
+			sensorsSystem: system Sensors_System.impl;
 			screen: device Devices::Screen_Device.Impl;
 		connections
 			c1: bus access cpu.magBus -> magBus;
-
+			SATA2cpu: bus access SATA -> cpu.SataAccess;
+			ssd2SATA: bus access ssd.SATA -> SATA;
+			ram2bus: bus access RAM.magBus <-> magBus;
+			process2Screen: port mainProcess.outScreen -> screen.displayInput;
+			screen2process: port screen.displayOutput -> mainProcess.InScreen;
+			process2subsystem: port mainProcess.triggerBeverage -> devicesSystem.inBeverage;
+			sensor2Process: port sensorsSystem.outSensors -> mainProcess.inSensor;
+			sensor2ssd: port mainProcess.outSensor -> SSD.inData;
 
 	end CoffeeMachine_System.Impl;
 
 	system Sensors_System
+		features
+			OutSensors: out data port;
 	end Sensors_System;
 	
 	system implementation Sensors_System.Impl
@@ -177,6 +195,8 @@ public
 	end Sensors_System.Impl;
 	
 	system CoffeeDevices_System
+		features
+			InBeverage: in data port DataTypes::BeverageParameters;
 	end CoffeeDevices_System;
 
 	system implementation CoffeeDevices_System.Impl
@@ -190,6 +210,7 @@ public
 			milkPump: device Devices::Pump_Device.Impl;
 			milkFrother: device Devices::Frother_Device.Impl;
 		connections
+			inBeverageConn: port InBeverage -> coffeeBrewingProcess.inBrewing;
 			process2Coffee: port coffeeBrewingProcess.outCoffee -> grinder.coffee;
             process2Water: port coffeeBrewingProcess.outWater -> waterPump.water;
             process2Temp: port coffeeBrewingProcess.outTemp -> waterHeater.temp;
