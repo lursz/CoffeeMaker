@@ -1,10 +1,7 @@
 package CoffeeMachine
 public
-	with Data_Model; -- np. Base_Types::Integer
-    with DataTypes; -- custom Data Types
+	with DataTypes; -- np. Base_Types::Integer
 
-
--- Coffee Machine System
 	system CoffeeMachine
 	end CoffeeMachine;
 
@@ -49,7 +46,7 @@ public
 -- THREADS
 	thread UserInterface
 		features
-			beverageParams: out data port BeverageParameters;
+			beverageParams: out data port DataTypes::BeverageParameters;
 			displayOutput: out data port;
 		properties
 			Dispatch_Protocol => Periodic;
@@ -58,10 +55,10 @@ public
 
 	thread BrewingControl
 		features
-			beverageParams: in data port BeverageParameters;
-			pumpParams: out data port Time;
-			heatParams: out data port Temperature;
-			grinderParams: out data port Time;
+			beverageParams: in data port DataTypes::BeverageParameters;
+			pumpParams: out data port DataTypes::Time;
+			heatParams: out data port DataTypes::Temperature;
+			grinderParams: out data port DataTypes::Time;
 			startBrewing: out event port;
 			stopBrewing: in event port;
 		properties
@@ -71,8 +68,8 @@ public
 
 	thread SensorMonitoring
 		features
-			InSensor: in event port;
 			OutSensor: out data port; -- Sensor outputs data to this port
+			InSensor: in event port;
 	end SensorMonitoring;
 
 -- DEVICES
@@ -84,7 +81,7 @@ public
 
 	device GrinderDevice
 		features
-			time: in data port Time;
+			time: in data port DataTypes::Time;
 	end GrinderDevice;
 
 	device implementation GrinderDevice.Impl
@@ -92,7 +89,7 @@ public
 
 	device PumpDevice
 		features
-			time: in data port Time;
+			time: in data port DataTypes::Time;
 	end PumpDevice;
 
 	device implementation PumpDevice.Impl
@@ -100,7 +97,7 @@ public
 
 	device HeaterDevice
 		features
-			temp: in data port Temperature;
+			temp: in data port DataTypes::Temperature;
 	end HeaterDevice;
 
 	device implementation HeaterDevice.Impl

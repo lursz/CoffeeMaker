@@ -1,5 +1,151 @@
 <?xml version="1.0" encoding="ASCII"?>
 <diagram:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagram="http://osate.org/diagram" formatVersion="7">
+  <element uuid="99e639e5-8967-40f6-9f76-47a4373e825f" manual="true">
+    <element uuid="6b946341-c1a1-4089-8571-f6d3eac65bca" manual="true">
+      <element uuid="e6cffac4-477b-4300-ba96-3fd63187c4e4" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>p1</seg>
+      </bo>
+    </element>
+    <element uuid="ffc309c9-2897-4f8d-b8db-3e92265292a2" manual="true">
+      <element uuid="70b1ddb3-2dda-420f-8b31-3f74829eba49" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>p2</seg>
+      </bo>
+      <bendpoints>
+        <point x="358.8854064941406" y="180.0"/>
+        <point x="358.8854064941406" y="210.0"/>
+      </bendpoints>
+    </element>
+    <element uuid="1cebc984-a785-4485-b5a1-16a47516616a" manual="true">
+      <element uuid="0b1b6930-a1b4-4920-9e89-f04ae03049d7" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>p3</seg>
+      </bo>
+      <bendpoints>
+        <point x="358.8854064941406" y="160.0"/>
+        <point x="358.8854064941406" y="130.0"/>
+      </bendpoints>
+    </element>
+    <element uuid="4792a931-5fba-48bc-9c4c-30b072a5fefb" manual="true">
+      <element uuid="fc2cefae-55ac-4123-ad3f-da74c6c6e77f" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>beverageParams</seg>
+        </bo>
+        <position y="10.0"/>
+      </element>
+      <element uuid="5787d599-aa0e-4aa2-a764-71141b54d5a2" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>grinderParams</seg>
+        </bo>
+        <position y="260.0"/>
+      </element>
+      <element uuid="289d1e51-9499-4f79-9ffd-03c6a917a84a" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>heatParams</seg>
+        </bo>
+        <position y="160.0"/>
+      </element>
+      <element uuid="529576c5-c953-40d5-9aac-276771bbc714" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>pumpParams</seg>
+        </bo>
+        <position y="210.0"/>
+      </element>
+      <element uuid="3b5ea373-df98-4b92-bd00-db83f6e1d606" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>startBrewing</seg>
+        </bo>
+        <position y="110.0"/>
+      </element>
+      <element uuid="3f068dc9-a50f-4dce-bd9e-71daac77b15a" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>stopBrewing</seg>
+        </bo>
+        <position y="60.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>brewingThread</seg>
+      </bo>
+      <position x="368.8854064941406" y="38.0"/>
+      <size width="373.2005157470703" height="310.0"/>
+    </element>
+    <element uuid="563a6380-9c6e-4ca0-97e9-387a8068b761" manual="true">
+      <element uuid="2f85a11f-236b-4d4f-b8c3-ee70454cb77d" manual="true" dockArea="right">
+        <bo>
+          <seg>feature</seg>
+          <seg>InSensor</seg>
+        </bo>
+        <position x="225.56250762939453" y="60.0"/>
+      </element>
+      <element uuid="e50e6778-e948-40c2-a0f3-542cd5557179" manual="true" dockArea="right">
+        <bo>
+          <seg>feature</seg>
+          <seg>OutSensor</seg>
+        </bo>
+        <position x="215.19141387939453" y="10.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>sensorThread</seg>
+      </bo>
+      <position x="57.95701217651367" y="118.0"/>
+      <size width="290.9283905029297" height="110.0"/>
+    </element>
+    <element uuid="b4405897-f7de-4c14-9560-ba732c1ad45f" manual="true">
+      <element uuid="c1c34934-e87f-496e-8d58-90d20bb8d0f8" manual="true" dockArea="right">
+        <bo>
+          <seg>feature</seg>
+          <seg>beverageParams</seg>
+        </bo>
+        <position x="223.34894943237305" y="10.0"/>
+      </element>
+      <element uuid="854c0c3d-b3be-4d9e-896e-390b1d39bec2" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>displayOutput</seg>
+        </bo>
+        <position y="10.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>uiThread</seg>
+      </bo>
+      <position x="12.0" y="38.0"/>
+      <size width="336.88540267944336" height="60.0"/>
+    </element>
+    <bo>
+      <seg>classifier</seg>
+      <seg>MainProcess.Impl</seg>
+    </bo>
+    <position/>
+    <size width="754.0859375" height="360.0"/>
+  </element>
   <config type="structure" connectionPrimaryLabelsVisible="false">
     <enabledAadlProperties/>
     <context>
