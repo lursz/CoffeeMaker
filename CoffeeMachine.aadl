@@ -210,9 +210,9 @@ public
 		connections
 			inBeverageConn: port InBeverage -> coffeeBrewingProcess.inBrewing;
 			process2Coffee: port coffeeBrewingProcess.outCoffee -> grinder.coffee;
-            process2Water: port coffeeBrewingProcess.outWater -> waterPump.water;
+            process2Water: port coffeeBrewingProcess.outWater -> waterPump.amount;
             process2Temp: port coffeeBrewingProcess.outTemp -> waterHeater.temp;
-            process2Milk: port coffeeBrewingProcess.outMilk -> milkPump.milk;
+            process2Milk: port coffeeBrewingProcess.outMilk -> milkPump.amount;
             process2Frother: port coffeeBrewingProcess.outFrother -> milkFrother.temp;
             checkDoneCoffee: bus access grinder.checkDone -> magBus;
 			checkDoneWater: bus access waterPump.checkDone -> magBus;

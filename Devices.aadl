@@ -31,8 +31,7 @@ public
 
 	device Pump_Device
 		features
-			milk: in data port DataTypes::BeverageParameters;
-            water: in data port DataTypes::BeverageParameters;   
+            amount: in data port DataTypes::BeverageParameters;   
 			checkDone: requires bus access Hardware::MagBus;
 		properties
 			SEI::GrossWeight => 0.5kg;

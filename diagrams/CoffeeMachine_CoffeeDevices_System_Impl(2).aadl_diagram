@@ -361,7 +361,7 @@
       <element uuid="cd6e8d6e-3c28-4efe-97db-6422732660ca" manual="true" dockArea="left">
         <bo>
           <seg>feature</seg>
-          <seg>water</seg>
+          <seg>amount</seg>
         </bo>
         <position y="10.0"/>
       </element>
