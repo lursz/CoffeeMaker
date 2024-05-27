@@ -1,0 +1,56 @@
+package Devices
+public 
+    with Base_Types;
+    with DataTypes;
+
+    -- DEVICES
+	device Screen_Device
+		features
+			displayOutput: out data port;
+			displayInput: in data port DataTypes::BeverageParameters;
+	end Screen_Device;
+
+	device implementation Screen_Device.Impl
+	end Screen_Device.Impl;
+
+	device Grinder_Device
+		features
+			time: in data port DataTypes::Time;
+	end Grinder_Device;
+
+	device implementation Grinder_Device.Impl
+	end Grinder_Device.Impl;
+
+	device Pump_Device
+		features
+			time: in data port DataTypes::Time;
+	end Pump_Device;
+
+	device implementation Pump_Device.Impl
+	end Pump_Device.Impl;
+
+	device Heater_Device
+		features
+			temp: in data port DataTypes::Temperature;
+	end Heater_Device;
+
+	device implementation Heater_Device.Impl
+	end Heater_Device.Impl;
+
+	device Frother_Device
+        features
+            temp: in data port DataTypes::Temperature;
+	end Frother_Device;
+
+	device implementation Frother_Device.Impl
+	end Frother_Device.Impl;
+
+	device Sensor_Device
+		features
+			sensorOutput: out data port; -- Correct direction of sensor data output
+	end Sensor_Device;
+
+	device implementation Sensor_Device.Impl
+	end Sensor_Device.Impl;
+
+end Devices;

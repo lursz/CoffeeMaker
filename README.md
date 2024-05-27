@@ -39,3 +39,13 @@ device: Milk frother
 deivce: Coffee replenishment sensor
 device: Water sensor
 device: Milk sensor
+```
+
+<details>
+<summary>Tips </summary>
+
+- Przynajmniej jeden proces na podsystem
+- 0 pertów dla głównego systemu
+- 0 errorów / warningow
+- Analysys (Check connection binding check)
+</details>

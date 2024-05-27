@@ -1,0 +1,24 @@
+package Hardware
+public
+    with Base_Types;
+
+    
+-- CPU
+	processor GenericProcessor
+		features
+			magBus: requires bus access MagBus;
+	end GenericProcessor;
+
+-- MEMORY
+    memory GenericMemory
+        features
+            magBus: requires bus access MagBus;
+    end GenericMemory;
+
+
+-- BUS
+	bus MagBus
+	end MagBus;
+
+
+end Hardware;

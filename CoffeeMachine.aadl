@@ -1,67 +1,110 @@
 package CoffeeMachine
 public
 	with DataTypes; -- np. Base_Types::Integer
+	with Hardware;
+	with Devices;
 
-	system CoffeeMachine
-	end CoffeeMachine;
+-- SYSTEMS --
+	system CoffeeMachine_System
+	end CoffeeMachine_System;
 
--- SYSTEM
-	system implementation CoffeeMachine.Impl
+	system implementation CoffeeMachine_System.Impl
 		subcomponents
-			cpu1: processor GenericProcessor;
-			magBus: bus MagBus;
-			coffeeProcess: process MainProcess.Impl;
-			screen: device ScreenDevice.Impl;
-			dvices: system CoffeeDevices;
-			sensors: system Sensors;
+			cpu1: processor Hardware::GenericProcessor;
+			magBus: bus Hardware::MagBus;
+			screen: device Devices::Screen_Device.Impl;
+			dvices: system CoffeeDevices_System;
+			sensors: system Sensors_System;
 		connections
 			c1: bus access cpu1.magBus -> magBus;
-	end CoffeeMachine.Impl;
+	end CoffeeMachine_System.Impl;
+
+	system Sensors_System
+	end Sensors_System;
 	
-	system Sensors
-	end Sensors;
-	
-	system implementation Sensors.Impl
+	system implementation Sensors_System.Impl
 		subcomponents
-			coffeeSensor: device SensorDevice.Impl;
-			waterSensor: device SensorDevice.Impl;
-			milkSensor: device SensorDevice.Impl;
-	end Sensors.Impl;
+			sensorsProcess: process SensorMonitoringProcess;
+			coffeeSensor: device Devices::Sensor_Device.Impl;
+			waterSensor: device Devices::Sensor_Device.Impl;
+			milkSensor: device Devices::Sensor_Device.Impl;
+	end Sensors_System.Impl;
 	
-	system CoffeeDevices
-	end CoffeeDevices;
+	system CoffeeDevices_System
+	end CoffeeDevices_System;
 
-	system implementation CoffeeDevices.Impl
+	system implementation CoffeeDevices_System.Impl
 		subcomponents
-			grinder: device GrinderDevice.Impl;
-			waterPump: device PumpDevice.Impl;
-			waterHeater: device HeaterDevice.Impl;
-			milkPump: device PumpDevice.Impl;
-			milkFrother: device FrotherDevice.Impl;
-	end CoffeeDevices.Impl;
--- CPU
-	processor GenericProcessor
-		features
-			magBus: requires bus access MagBus;
-	end GenericProcessor;
+			coffeeBrewingProcess: process CoffeeBrewing_Process.Impl;
+			grinder: device Devices::Grinder_Device.Impl;
+			waterPump: device Devices::Pump_Device.Impl;
+			waterHeater: device Devices::Heater_Device.Impl;
+			milkPump: device Devices::Pump_Device.Impl;
+			milkFrother: device Devices::Frother_Device.Impl;
+	end CoffeeDevices_System.Impl;
 
-	bus MagBus
-	end MagBus;
-
+	
+-- Process
 	process MainProcess
 	end MainProcess;
 
 	process implementation MainProcess.Impl
 		subcomponents
 			uiThread: thread UserInterface;
-			brewingThread: thread BrewingControl;
-			sensorThread: thread SensorMonitoring;
+			monitorProcess: process SensorMonitoringProcess.Impl;
+			brewingProcess: process CoffeeBrewing_Process.Impl;
+			screen: device Devices::Screen_Device;
 		connections
 			-- Connections within MainProcess
-			p1: port uiThread.beverageParams -> brewingThread.beverageParams;
-			p2: port brewingThread.startBrewing -> sensorThread.InSensor;
-			p3: port sensorThread.OutSensor -> brewingThread.stopBrewing;
+			t1: port uiThread.beverageParams -> brewingProcess.brewingThread.beverageParams;
+			t2: port uiThread.displayOutput -> screen.displayOutput;
 	end MainProcess.Impl;
+
+
+	process CoffeeBrewing_Process
+	end CoffeeBrewing_Process;
+
+	process implementation CoffeeBrewing_Process.Impl
+		subcomponents
+			monitorProcess: process SensorMonitoringProcess.Impl;
+			brewingThread: thread BrewingControl;
+			grinder: device Devices::Grinder_Device;
+			waterPump: device Devices::Pump_Device;
+			waterHeater: device Devices::Heater_Device;
+			milkPump: device Devices::Pump_Device;
+			milkFrother: device Devices::Frother_Device;
+
+		connections
+			-- Connections within MainProcess
+			t2: port brewingThread.pumpParams -> waterPump.time;
+			t3: port brewingThread.heatParams -> waterHeater.temp;
+			t4: port brewingThread.pumpParams -> milkPump.time;
+			t5: port brewingThread.heatParams -> milkFrother.temp;
+			
+
+	end CoffeeBrewing_Process.Impl;
+	
+	process SensorMonitoringProcess
+	end SensorMonitoringProcess;
+
+	process implementation SensorMonitoringProcess.Impl
+		subcomponents
+			brewingProcess: process CoffeeBrewing_Process.Impl;
+			sensorThread: thread SensorMonitoring;
+			coffeeSensor: device Devices::Sensor_Device;
+			waterSensor: device Devices::Sensor_Device;
+			milkSensor: device Devices::Sensor_Device;
+		connections
+			-- Connections within SensorMonitoringProcess
+			p0: port brewingProcess.brewingThread.startBrewing -> sensorThread.InSensor;	
+			p1: port coffeeSensor.sensorOutput -> sensorThread.InSensor;
+			p2: port waterSensor.sensorOutput -> sensorThread.InSensor;
+			p3: port milkSensor.sensorOutput -> sensorThread.InSensor;
+			p4: port sensorThread.OutSensor -> brewingProcess.brewingThread.stopBrewing;
+	end SensorMonitoringProcess.Impl;
+
+
+	
 
 -- THREADS
 	thread UserInterface
@@ -92,50 +135,6 @@ public
 			InSensor: in event port;
 	end SensorMonitoring;
 
--- DEVICES
-	device ScreenDevice
-	end ScreenDevice;
-
-	device implementation ScreenDevice.Impl
-	end ScreenDevice.Impl;
-
-	device GrinderDevice
-		features
-			time: in data port DataTypes::Time;
-	end GrinderDevice;
-
-	device implementation GrinderDevice.Impl
-	end GrinderDevice.Impl;
-
-	device PumpDevice
-		features
-			time: in data port DataTypes::Time;
-	end PumpDevice;
-
-	device implementation PumpDevice.Impl
-	end PumpDevice.Impl;
-
-	device HeaterDevice
-		features
-			temp: in data port DataTypes::Temperature;
-	end HeaterDevice;
-
-	device implementation HeaterDevice.Impl
-	end HeaterDevice.Impl;
-
-	device FrotherDevice
-	end FrotherDevice;
-
-	device implementation FrotherDevice.Impl
-	end FrotherDevice.Impl;
-
-	device SensorDevice
-		features
-			sensorOutput: out data port; -- Correct direction of sensor data output
-	end SensorDevice;
-
-	device implementation SensorDevice.Impl
-	end SensorDevice.Impl;
 
 ----------
 end CoffeeMachine;
