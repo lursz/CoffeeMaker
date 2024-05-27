@@ -48,13 +48,13 @@ public
 	thread deviceMilkControl
 		features 
 			MilkInput: in data port DataTypes::BeverageParameters;
-			MilkOutput: out event port;
+			MilkOutput: out  data port DataTypes::BeverageParameters;
 	end deviceMilkControl;
 	
 	thread deviceMilkFrotherControl
 		features
 			FrotherInput: in event port;
-			FrotherOutput: out event port;
+			FrotherOutput: out data port DataTypes::BeverageParameters;
 	end deviceMilkFrotherControl;
 	
 	thread SensorMonitoring
@@ -126,6 +126,13 @@ public
 			milk: port milkTempCtrl.TemperatureOutput -> milkCtrl.MilkInput;
 			frother: port milkCtrl.MilkOutput -> frotherCtrl.FrotherInput;
 			checkDone: port frotherCtrl.FrotherOutput -> brewingThread.checkDone;	
+			coffee2dev: port coffeeCtrl.coffeeOutput -> outCoffee;
+			water2dev: port waterCtrl.waterOutput -> outwater;
+			milk2dev: port milkCtrl.milkOutput -> outmilk;
+			frother2dev: port frotherCtrl.frotherOutput -> outfrother;
+			waterHeater2dev: port waterCtrl.waterOutput -> outTemp;
+			milkHeater2dev: port milkCtrl.MilkOutput -> outFrother;
+			
 			
 
 	end CoffeeBrewing_Process.Impl;
