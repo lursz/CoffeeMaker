@@ -9,24 +9,44 @@ public
 	system implementation CoffeeMachine.Impl
 		subcomponents
 			cpu1: processor GenericProcessor;
+			magBus: bus MagBus;
 			coffeeProcess: process MainProcess.Impl;
 			screen: device ScreenDevice.Impl;
+			dvices: system CoffeeDevices;
+			sensors: system Sensors;
+		connections
+			c1: bus access cpu1.magBus -> magBus;
+	end CoffeeMachine.Impl;
+	
+	system Sensors
+	end Sensors;
+	
+	system implementation Sensors.Impl
+		subcomponents
+			coffeeSensor: device SensorDevice.Impl;
+			waterSensor: device SensorDevice.Impl;
+			milkSensor: device SensorDevice.Impl;
+	end Sensors.Impl;
+	
+	system CoffeeDevices
+	end CoffeeDevices;
+
+	system implementation CoffeeDevices.Impl
+		subcomponents
 			grinder: device GrinderDevice.Impl;
 			waterPump: device PumpDevice.Impl;
 			waterHeater: device HeaterDevice.Impl;
 			milkPump: device PumpDevice.Impl;
 			milkFrother: device FrotherDevice.Impl;
-			coffeeSensor: device SensorDevice.Impl;
-			waterSensor: device SensorDevice.Impl;
-			milkSensor: device SensorDevice.Impl;
-	end CoffeeMachine.Impl;
-
+	end CoffeeDevices.Impl;
 -- CPU
 	processor GenericProcessor
+		features
+			magBus: requires bus access MagBus;
 	end GenericProcessor;
 
-	process CPUProcess
-	end CPUProcess;
+	bus MagBus
+	end MagBus;
 
 	process MainProcess
 	end MainProcess;
