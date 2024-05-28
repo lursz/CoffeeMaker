@@ -8,7 +8,7 @@ public
 	device Screen_Device
         features
 			displayOutput: out data port DataTypes::BeverageParameters;
-			displayInput: in data port;
+			displayInput: requires bus access Hardware::MagBus;
 		properties
 			SEI::GrossWeight => 0.5kg;
 	end Screen_Device;
@@ -68,6 +68,7 @@ public
 	device Sensor_Device
 		features
 			sensor: out data port;
+			output: requires bus access Hardware::SATA;
 		properties
 			SEI::GrossWeight => 0.5kg;
 	end Sensor_Device;

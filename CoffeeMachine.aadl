@@ -75,12 +75,10 @@ public
 	process MainProcess
 		features
 			inScreen: in data port DataTypes::BeverageParameters;
-			outScreen: out data port;
-			inSensor: in data port;
-			outSensor: out data port;
 			triggerBeverage: out data port DataTypes::BeverageParameters;
 			stopBrewing: out data port;
 			inMemory: in data port DataTypes::BeverageParameters;
+			inSensors: in data port;
 	end MainProcess;
 
 	process implementation MainProcess.Impl
@@ -163,7 +161,7 @@ public
 			magBus: bus Hardware::MagBus;
 			RAM: memory Hardware::GenericMemory;
 			SSD: memory Hardware::SSD;
-			SATA: bus HArdware::SATA;
+			SATA: bus Hardware::SATA;
 			devicesSystem: system CoffeeDevices_System.impl;
 			sensorsSystem: system Sensors_System.impl;
 			screen: device Devices::Screen_Device.Impl;
@@ -172,29 +170,34 @@ public
 			SATA2cpu: bus access SATA -> cpu.SataAccess;
 			ssd2SATA: bus access ssd.SATA -> SATA;
 			ram2bus: bus access RAM.magBus <-> magBus;
-			process2Screen: port mainProcess.outScreen -> screen.displayInput;
+			process2Screen: bus access MagBus -> screen.displayInput;
 			screen2process: port screen.displayOutput -> mainProcess.InScreen;
 			process2subsystem: port mainProcess.triggerBeverage -> devicesSystem.inBeverage;
 			process2stop: port mainProcess.stopBrewing -> devicesSystem.stopBrewing;
-			sensor2Process: port sensorsSystem.outSensors -> mainProcess.inSensor;
-			sensor2ssd: port mainProcess.outSensor -> SSD.inData;
+			sensor2Process: port sensorsSystem.outSensors -> SSD.inData;
 			ssd2main: port ssd.presets -> mainProcess.inMemory;
 			mag2devmag: bus access devicesSystem.magBus -> magBus;
+			sens2main: port SSD.outSensors -> mainProcess.inSensors;
+			sesn2sata: bus access sensorsSystem.sata -> sata;
 		properties
-			Actual_Processor_Binding => (reference(CPU)) applies to mainProcess;
-			Actual_Processor_Binding => (reference(CPU)) applies to devicesSystem.coffeeBrewingProcess;
-			Actual_Processor_Binding => (reference(CPU)) applies to sensorsSystem.sensorsProcess;
-			Actual_Memory_Binding => (reference(RAM)) applies to mainProcess;
-			Actual_Memory_Binding => (reference(RAM)) applies to devicesSystem.coffeeBrewingProcess;
-			Actual_Memory_Binding => (reference(RAM)) applies to sensorsSystem.sensorsProcess;
-			Actual_Connection_Binding => (reference(magBus)) applies to mainProcess;
-			Actual_Connection_Binding => (reference(magBus)) applies to devicesSystem.coffeeBrewingProcess;
-			Actual_Connection_Binding => (reference(magBus)) applies to sensorsSystem.sensorsProcess;
-			Actual_Connection_Binding => (reference(magBus)) applies to ram2bus;
-			Actual_Connection_Binding => (reference(magBus)) applies to mag2devmag;
-			Actual_Connection_Binding => (reference(SATA)) applies to ssd2SATA;
-			Actual_Connection_Binding => (reference(SATA)) applies to SATA2cpu;
-
+        Actual_Processor_Binding => (reference(CPU)) applies to mainProcess;
+        Actual_Processor_Binding => (reference(CPU)) applies to devicesSystem.coffeeBrewingProcess;
+        Actual_Processor_Binding => (reference(CPU)) applies to sensorsSystem.sensorsProcess;
+        Actual_Memory_Binding => (reference(RAM)) applies to mainProcess;
+        Actual_Memory_Binding => (reference(RAM)) applies to devicesSystem.coffeeBrewingProcess;
+        Actual_Memory_Binding => (reference(RAM)) applies to sensorsSystem.sensorsProcess;
+        Actual_Connection_Binding => (reference(magBus)) applies to mainProcess;
+        Actual_Connection_Binding => (reference(magBus)) applies to devicesSystem.coffeeBrewingProcess;
+        Actual_Connection_Binding => (reference(magBus)) applies to sensorsSystem.sensorsProcess;
+        Actual_Connection_Binding => (reference(magBus)) applies to ram2bus;
+        Actual_Connection_Binding => (reference(magBus)) applies to mag2devmag;
+        Actual_Connection_Binding => (reference(SATA)) applies to ssd2SATA;
+        Actual_Connection_Binding => (reference(SATA)) applies to SATA2cpu;
+        Actual_Connection_Binding => (reference(magBus)) applies to sensorsSystem.sensorsProcess.InCoffeeSensor;
+        Actual_Connection_Binding => (reference(magBus)) applies to sensorsSystem.sensorsProcess.InWaterSensor;
+        Actual_Connection_Binding => (reference(magBus)) applies to sensorsSystem.sensorsProcess.InMilkSensor;
+        Actual_Connection_Binding => (reference(magBus)) applies to sensorsSystem.sensorsProcess.InTempSensor;
+        Actual_Connection_Binding => (reference(magBus)) applies to sensorsSystem.sensorsProcess.InFrotherSensor;
 			
 			
 			
@@ -203,8 +206,8 @@ public
 
 	system Sensors_System
 		features
-			inSensors: in data port;
-			OutSensors: out data port;			
+			OutSensors: out data port;
+			SATA: requires bus access Hardware::SATA;	
 	end Sensors_System;
 	
 	system implementation Sensors_System.Impl
@@ -223,6 +226,15 @@ public
 			sensor2Temp: port tempSensor.sensor -> sensorsProcess.InTempSensor;
 			sensor2Frother: port frotherSensor.sensor -> sensorsProcess.InFrotherSensor;
 			magBusAccess1: port sensorsProcess.outSensor -> OutSensors;
+			coffee2sata: bus access coffeeSensor.output -> sata;
+			water2sata: bus access waterSensor.output -> sata;
+			milk2sata: bus access milkSensor.output -> sata;
+			temp2sata: bus access tempSensor.output -> sata;
+			frother2sata: bus access frotherSensor.output -> sata;
+			
+			
+
+
 	end Sensors_System.Impl;
 	
 	system CoffeeDevices_System
