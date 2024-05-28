@@ -19,9 +19,9 @@ public
 			beverageParamsInput: in data port DataTypes::BeverageParameters;
 			beverageParamsOutput: out data port DataTypes::BeverageParameters;
 			checkDone: in event port;
-			startBrewing: out data port DataTypes::BeverageParameters;
+			startBrewing: in data port DataTypes::BeverageParameters;
 			stopBrewing: in event port;
-			parameters: in data port DataTypes::BeverageParameters;
+			askParameters: out data port DataTypes::BeverageParameters;
 		properties
 			Dispatch_Protocol => Sporadic;
 			Priority => 1;
@@ -48,13 +48,13 @@ public
 	thread deviceMilkControl
 		features 
 			MilkInput: in data port DataTypes::BeverageParameters;
-			MilkOutput: out event port;
+			MilkOutput: out  data port DataTypes::BeverageParameters;
 	end deviceMilkControl;
 	
 	thread deviceMilkFrotherControl
 		features
 			FrotherInput: in event port;
-			FrotherOutput: out event port;
+			FrotherOutput: out data port DataTypes::BeverageParameters;
 	end deviceMilkFrotherControl;
 	
 	thread SensorMonitoring
@@ -65,7 +65,7 @@ public
 
 	thread ParametersDownloader
 		features
-			OutParams: out data port;
+			OutParams: out data port DataTypes::BeverageParameters;
 			InParams: in data port DataTypes::BeverageParameters;
 	end ParametersDownloader;
 
@@ -79,6 +79,7 @@ public
 			inSensor: in data port;
 			outSensor: out data port;
 			triggerBeverage: out data port DataTypes::BeverageParameters;
+			stopBrewing: out data port;
 			inMemory: in data port DataTypes::BeverageParameters;
 	end MainProcess;
 
@@ -94,6 +95,7 @@ public
 	process CoffeeBrewing_Process
 		features
 			inBrewing: in data port DataTypes::BeverageParameters;
+			StopBrewing: in data port;
 			outCoffee: out data port DataTypes::BeverageParameters;
 			outWater: out data port DataTypes::BeverageParameters;
 			outTemp: out data port DataTypes::BeverageParameters;
@@ -104,7 +106,8 @@ public
 	process implementation CoffeeBrewing_Process.Impl
 		subcomponents
 			brewingThread: thread BrewingControl;
-			tempCtrl: thread deviceTemperatureControl;
+			waterTempCtrl: thread deviceTemperatureControl;
+			milkTempCtrl: thread deviceTemperatureControl;
 			coffeeCtrl: thread deviceCoffeeControl;
 			waterCtrl: thread deviceWaterControl;
 			milkCtrl: thread deviceMilkControl;
@@ -112,13 +115,24 @@ public
 			parametersDownl: thread ParametersDownloader;
 		connections
 			-- Connections 
+			startBrew: port inBrewing -> brewingThread.startBrewing;
+			stopBrew: port StopBrewing -> brewingThread.StopBrewing;
+			param2brewThr: port parametersDownl.outParams -> brewingThread.beverageParamsInput;
+			askParams: port brewingThread.askParameters -> parametersDownl.inParams;
 			coffee: port brewingThread.beverageParamsOutput -> coffeeCtrl.CoffeeInput;
-			waterHeater: port coffeeCtrl.CoffeeOutput -> tempCtrl.TemperatureInput;
-			water: port tempCtrl.TemperatureOutput -> waterCtrl.WaterInput;
-			milkHeater: port waterCtrl.waterOutput -> tempCtrl.TemperatureInput;
-			milk: port tempCtrl.TemperatureOutput -> milkCtrl.MilkInput;
+			waterHeater: port coffeeCtrl.CoffeeOutput -> waterTempCtrl.TemperatureInput;
+			water: port waterTempCtrl.TemperatureOutput -> waterCtrl.WaterInput;
+			milkHeater: port waterCtrl.waterOutput -> milkTempCtrl.TemperatureInput;
+			milk: port milkTempCtrl.TemperatureOutput -> milkCtrl.MilkInput;
 			frother: port milkCtrl.MilkOutput -> frotherCtrl.FrotherInput;
 			checkDone: port frotherCtrl.FrotherOutput -> brewingThread.checkDone;	
+			coffee2dev: port coffeeCtrl.coffeeOutput -> outCoffee;
+			water2dev: port waterCtrl.waterOutput -> outwater;
+			milk2dev: port milkCtrl.milkOutput -> outmilk;
+			frother2dev: port frotherCtrl.frotherOutput -> outfrother;
+			waterHeater2dev: port waterCtrl.waterOutput -> outTemp;
+			milkHeater2dev: port milkCtrl.MilkOutput -> outFrother;			
+			
 
 	end CoffeeBrewing_Process.Impl;
 	
@@ -162,10 +176,29 @@ public
 			process2Screen: port mainProcess.outScreen -> screen.displayInput;
 			screen2process: port screen.displayOutput -> mainProcess.InScreen;
 			process2subsystem: port mainProcess.triggerBeverage -> devicesSystem.inBeverage;
+			process2stop: port mainProcess.stopBrewing -> devicesSystem.stopBrewing;
 			sensor2Process: port sensorsSystem.outSensors -> mainProcess.inSensor;
 			sensor2ssd: port mainProcess.outSensor -> SSD.inData;
 			ssd2main: port ssd.presets -> mainProcess.inMemory;
 			mag2devmag: bus access devicesSystem.magBus -> magBus;
+		properties
+			Actual_Processor_Binding => (reference(CPU)) applies to mainProcess;
+			Actual_Processor_Binding => (reference(CPU)) applies to devicesSystem.coffeeBrewingProcess;
+			Actual_Processor_Binding => (reference(CPU)) applies to sensorsSystem.sensorsProcess;
+			Actual_Memory_Binding => (reference(RAM)) applies to mainProcess;
+			Actual_Memory_Binding => (reference(RAM)) applies to devicesSystem.coffeeBrewingProcess;
+			Actual_Memory_Binding => (reference(RAM)) applies to sensorsSystem.sensorsProcess;
+			Actual_Connection_Binding => (reference(magBus)) applies to mainProcess;
+			Actual_Connection_Binding => (reference(magBus)) applies to devicesSystem.coffeeBrewingProcess;
+			Actual_Connection_Binding => (reference(magBus)) applies to sensorsSystem.sensorsProcess;
+			Actual_Connection_Binding => (reference(magBus)) applies to ram2bus;
+			Actual_Connection_Binding => (reference(magBus)) applies to mag2devmag;
+			Actual_Connection_Binding => (reference(SATA)) applies to ssd2SATA;
+			Actual_Connection_Binding => (reference(SATA)) applies to SATA2cpu;
+
+			
+			
+			
 
 	end CoffeeMachine_System.Impl;
 
@@ -196,6 +229,7 @@ public
 	system CoffeeDevices_System
 		features
 			InBeverage: in data port DataTypes::BeverageParameters;
+			StopBrewing: in data port;
 			magBus: requires bus access Hardware::MagBus;
 	end CoffeeDevices_System;
 
@@ -209,6 +243,7 @@ public
 			milkFrother: device Devices::Frother_Device.Impl;
 		connections
 			inBeverageConn: port InBeverage -> coffeeBrewingProcess.inBrewing;
+			inStopConn: port StopBrewing -> coffeeBrewingProcess.StopBrewing;
 			process2Coffee: port coffeeBrewingProcess.outCoffee -> grinder.coffee;
             process2Water: port coffeeBrewingProcess.outWater -> waterPump.amount;
             process2Temp: port coffeeBrewingProcess.outTemp -> waterHeater.temp;

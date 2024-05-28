@@ -36,9 +36,13 @@ public
 
 -- BUS
 	bus MagBus
+		properties
+			SEI::GrossWeight => 0.01kg;
 	end MagBus;
 
 	bus SATA
+		properties
+			SEI::GrossWeight => 0.01kg;
 	end SATA;
 
 
