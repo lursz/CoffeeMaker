@@ -6,39 +6,66 @@ The main idea behind this project is to create a model of coffee machine in AADL
 
 ## Model
 ```
--- SYSTEM
-System: CoffeeMachine
-
--- CPU
-processor GenericProcessor
-
--- BUS
-bus DataBus
-
--- MEMORY
-memory Mem
-
+-- SYSTEMS
+sstem CoffeeMachine_System
+system Sensors_System
+system CoffeeDevices_System
 
 -- PROCESSES
 process MainProcess
+process CoffeeBrewing_Proces
+process SensorMonitoringProcess
 
 -- THREADS
 thread UserInterface
 thread BrewingControl
+thread deviceWaterControl
+thread deviceCoffeeControl
+thread deviceTemperatureControl
+thread deviceMilkControl
+thread deviceMilkFrotherControl
 thread SensorMonitoring
+thread ParametersDownloader
 
--- Devices --
-device: Screen / Control Panel
-device: Grinder
+
+------------------
+-- Devices
+------------------
+Screen / Control Panel
+Grinder_Device
     -- Pumps
-device: Water pump
-device: Water heater
-device: Milk pump
-device: Milk frother
+Pump_Device
+Heater_Device
+Frother_Device
     -- Sensors
-deivce: Coffee replenishment sensor
-device: Water sensor
-device: Milk sensor
+Sensor_Device
+
+
+------------------
+-- HARDWARE
+------------------
+-- CPU
+processor GenericProcessor
+
+-- MEMORY
+memory GenericMemory
+memory SSD
+
+-- BUS
+bus DataBus
+bus SATA
+
+
+------------------
+-- DATA TYPES
+------------------
+data Temperature
+data Time
+data WaterAmount
+data CoffeeAmount
+data MilkAmount
+data BeverageParameters
+data NumberOfCycles
 ```
 
 # Model Diagrams
