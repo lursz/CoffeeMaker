@@ -41,6 +41,12 @@ device: Water sensor
 device: Milk sensor
 ```
 
+# Model Diagrams
+
+![CoffeeMachineSystemDiagram](https://github.com/lursz/CoffeeMaker/assets/66112312/ad0bc3ef-c44c-4a90-a523-87f94f010161)
+![BrewingProcessDiagram](https://github.com/lursz/CoffeeMaker/assets/66112312/47b14ff8-67ac-4968-8c61-adfa0b31a1f5)
+
+
 <details>
 <summary>Tips </summary>
 
